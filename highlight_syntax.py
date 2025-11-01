@@ -59,13 +59,14 @@ built_in_functions = [
     "print", "len", "range"
 ]
 
-
-
+white_space = [
+    " "
+]
 
 def analisa_biner(path) :
     return f'''
     import numpy as np
-    import matplotlib as plt
+    import matplotlib.pyplot as plt
     import tkinter as tk
 
 
@@ -135,12 +136,30 @@ def analisa_biner(path) :
 
     deteksi_tepi_folder_images('{path}')'''
 
+class lexer_chain_text():
+    def __init__(self, name, begin, end, next_chain, prev_chain):
+        self.name = name
+        self.begin = begin
+        self.next = end
+        self.next = next_chain
+        self.prev = prev_chain
+    
+    def type(self):
+        return None
+
 # class highlight
 class highlight ():
 
     def __init__(self, text):
         self.textbox = text
+        self.parser()
+        
 
+    def lexer( self ):
+        
+        return
+    
+    def parser(self):
         # highlight normal
 
         for key in operators :
@@ -165,7 +184,7 @@ class highlight ():
         self.highlight_beetween(['''"''', '''"'''], "1.0", YELLOW_PALLETE, name= 'tes2')
         self.highlight_beetween(["#", "\n"], "1.0", GRAY_PALLETE )
         # highlight kata yang berada di dalam sebuah state
-
+    
     def search_string( self, search_text, index ):
         return self.textbox.search(search_text, index, stopindex="end")
 
