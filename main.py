@@ -365,7 +365,7 @@ if __name__ == "__main__":
     # Create main window
     root = tk.Tk()
     root.geometry("1080x720")
-    root.title("Skripsi program visual programming")
+    root.title("Ruldani - Visual Programming")
 
     # Create sidebar frame
     sidebar = ctk.CTkFrame(root, width=200, height=500, corner_radius=0, bg_color=BACKGROUND_COLOR)
