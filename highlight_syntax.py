@@ -25,9 +25,26 @@ keywords = [
 ]
 
 # peghubung dan pemisah antar token
+NEW_LINE = [
+    "\r", "\n"
+]
+
+TAB = [
+    "\t"
+]
+
+BRACES = [
+    "(", ")", "[", "]"
+]
+
+DATA_TYPE = [
+    "int", "float", "string"
+]
+
 separator = [
     " ", "\r", "\n","(", ")"
 ]
+
 
 braces = [
     "(", ")", "[", "]", "."
@@ -59,107 +76,139 @@ built_in_functions = [
     "print", "len", "range"
 ]
 
-white_space = [
-    " "
+WHITE_SPACE = " "
+
+type_token = [
+    "ID", "EXPRESSION", "ASSIGNMENT", "BUILT_IN", "NEW_LINE", "TAB", "UNKNOWN"
 ]
 
 def analisa_biner(path) :
     return f'''
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import tkinter as tk
+import numpy as np
+import matplotlib.pyplot as plt
+import tkinter as tk
 
 
-    # baris untuk open folder 
-    folder = '/content/test'
+# baris untuk open folder 
+folder = '/content/test'
 
-    # Fungsi untuk melakukan transformasi Fourier pada gambar dalam folder
-    def deteksi_tepi_folder_images(folder_path):
+# Fungsi untuk melakukan transformasi Fourier pada gambar dalam folder
+def deteksi_tepi_folder_images(folder_path):
 
-        for filename in os.listdir(folder_path):
-            if filename.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
-                image_path = os.path.join(folder_path, filename)
+    for filename in os.listdir(folder_path):
+        if filename.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
+            image_path = os.path.join(folder_path, filename)
 
-                # Baca gambar dan lakukan Fourier Transform
-                image = Image.open(image_path).convert('L')
+            # Baca gambar dan lakukan Fourier Transform
+            image = Image.open(image_path).convert('L')
 
-                # Konversi ke numpy array untuk kompatibilitas dengan cv2
-                image_np = np.array(image)
+            # Konversi ke numpy array untuk kompatibilitas dengan cv2
+            image_np = np.array(image)
 
-                # 1. Deteksi Tepi dengan Metode Canny
-                edges_canny = cv2.Canny(image_np, 100, 200)
+deteksi_tepi_folder_images('{path}')'''
 
-                # 2. Deteksi Tepi dengan Metode Sobel (menggunakan gradien)
-                
-                # Gradien di arah X
-                sobel_x = cv2.Sobel(image_np, cv2.CV_64F, 1, 0, ksize=3)
-                
-                # Gradien di arah Y
-                sobel_y = cv2.Sobel(image_np, cv2.CV_64F, 0, 1, ksize=3)
-                
-                # Menggabungkan gradien X dan Y
-                sobel_edges = cv2.magnitude(sobel_x, sobel_y)
-
-                # 3. Deteksi Tepi dengan Metode Laplacian
-                laplacian = cv2.Laplacian(image_np, cv2.CV_64F)
-                
-                # Menyusun kembali hasilnya ke format gambar
-                laplacian_edges = np.uint8(np.absolute(laplacian))
-
-                # Simpan hasil deteksi tepi ke dalam daftar
-                titles = [  "Gambar Asli",
-                            "Deteksi Tepi Canny", 
-                            "Deteksi Tepi Sobel", 
-                            "Deteksi Tepi Laplacian", 
-                            "Gradien Sobel X", 
-                            "Gradien Sobel Y" ]
-                
-                images = [
-                    image_np,
-                    edges_canny,
-                    sobel_edges,
-                    laplacian_edges,
-                    np.uint8(np.absolute(sobel_x)),
-                    np.uint8(np.absolute(sobel_y))
-                ]
-
-                # Tampilkan hasilnya menggunakan loop
-                plt.figure(figsize=(12, 8))
-                for i in range(len(images)):
-                    plt.subplot(2, 3, i + 1)
-                    plt.imshow(images[i], cmap='gray')
-                    plt.title(titles[i])
-                    plt.axis('off')
-
-                plt.tight_layout()
-                plt.show()
-
-    deteksi_tepi_folder_images('{path}')'''
-
-class lexer_chain_text():
-    def __init__(self, name, begin, end, next_chain, prev_chain):
-        self.name = name
-        self.begin = begin
-        self.next = end
-        self.next = next_chain
-        self.prev = prev_chain
+class token():
+    def __init__(self, name, begin, end, next_chain = None, prev_chain = None):
+        self.name   = name
+        self.begin  = begin
+        self.end    = end
+        self.next   = next_chain
+        self.prev   = prev_chain
     
-    def type(self):
+    def type_token(self):
         return None
+    
+    def print_token(self):
+        print(f"isi token : {self.name}, berada di : {self.begin},{self.end}")
+
+class tokenizer():
+    def __init__(self, text):
+        self.token = self.get_token(text)
+
+    def white_space(self, char):
+        if char == WHITE_SPACE:
+            return True
+        else:
+            return False
+
+    def new_line(self, char):
+        for separate in NEW_LINE:
+            if char == separate:
+                return True
+        return False
+    
+    def tab_space(self, char):
+        if char == TAB:
+            return True
+        else:
+            return False
+
+    def func(self, char):
+        if char == ".":
+            return True
+        else:
+            return False
+        
+    def braces(self, char):
+        for separate in BRACES:
+            if char == separate:
+                return separate
+        return False
+
+    def get_token(self, text):
+        temp = ""
+        tab = 0
+        line = 1
+        for i, char in enumerate(text) :
+            if self.white_space(char=char):
+                if len(temp)>0:
+                    print(temp)
+                tab = tab + 1
+                temp = ""
+            elif self.new_line(char=char):
+                if len(temp)>0:
+                    print(temp)
+                line = line + 1
+                print(f"newline {line}")
+                tab = 0
+                temp = ""
+            elif self.func(char=char):
+                if len(temp)>0:
+                    print(temp)
+                print(".")
+                temp = ""
+                tab = 0
+            elif self.braces(char=char):
+                if len(temp)>0:
+                    print(temp)
+                print(self.braces(char=char))
+                temp = ""
+                tab = 0
+            else:
+                temp = temp + char
+                tab = 0
+            
+            if tab == 4 :
+                print("tab")
+                tab = 0
+        return
 
 # class highlight
 class highlight ():
 
     def __init__(self, text):
         self.textbox = text
-        self.parser()
-        
-
+        self.parser_old()
+        self.raw_text = text.get("1.0", "end")
+        self.lexer()
+    
     def lexer( self ):
-        
-        return
+        self.token = tokenizer(self.raw_text)
     
     def parser(self):
+        return
+
+    def parser_old(self):
         # highlight normal
 
         for key in operators :
@@ -178,7 +227,7 @@ class highlight ():
             self.highlight_text(key, "1.0", GREEN_PALLETE, separator_status= "(")
         
         self.highlight_text("in", "1.0", GREEN_PALLETE, separator_status= " ")
-        self.highlight_beetween([".", "("], "1.0", CYAN_PALLETE, [".", ")", "\n", "as"], name="cyanni")
+        # self.highlight_beetween([".", "("], "1.0", CYAN_PALLETE, ["\n", "as"], name="cyanni")
         # self.highlight_beetween(["as", "\n"], "1.0", CYAN_PALLETE, False, name="cyan_as")
         self.highlight_beetween(["'", "'"], "1.0", YELLOW_PALLETE, name= 'tes')
         self.highlight_beetween(['''"''', '''"'''], "1.0", YELLOW_PALLETE, name= 'tes2')
@@ -246,7 +295,7 @@ class highlight ():
                     if cancelation :
                         if cancelation < end_index:
                             cancelation_index = cancelation
-                            print(f"{cancelation} {end_index}")
+                            # print(f"{cancelation} {end_index}")
                             break
                 
             if cancelation_index == None :
