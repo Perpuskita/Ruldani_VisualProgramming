@@ -4,7 +4,7 @@
 ---
 
 ## 🎯 Our Mission
-*   ✅ **Fast learning and development:** Belajar pemograman dan mempelajari framework adalah proses yang melelahkan, membuat dan mempercepat pengembangan dibidang pemograman adalah misi dari project ini
+*   ✅ **Fast learning and development:** Mempercepat pembelajaran dan pengembangan project tertentu
 *   ✅ **Keep it simple:** Mudah dibaca, sekali lihat mampu mengerti maksud dan tujuan dari apa yang dikerjakan orang lain
-*   ✅ **Diagramize algoritm:** Melihat code dengan segala kerumitanya ada masalah yang cukup besar untuk pembelajar. Ibarat gambar mampu menjelaskan 1000 kata, diagram mampu ditranspile menjadi 1000 baris code
+*   ✅ **Diagramize algoritm:** Ibarat gambar mampu menjelaskan 1000 kata, diagram mampu ditranspile menjadi 1000 baris code
 *   ✅ **Translate it on anything:** Mentranspile diagram ke dalam banyak bahasa atau framework
