@@ -3,10 +3,10 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from codesaver import interpreter_code
+from src.codesaver import interpreter_code
 import tkinter as tk
-from nodeberzier import nodeberzier
-from highlight_syntax import highlight
+from src.nodeberzier import nodeberzier
+from src.highlight_syntax import highlight
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")
