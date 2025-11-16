@@ -3,7 +3,7 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from src.codesaver import interpreter_code
+from code_server import interpreter_code
 import tkinter as tk
 from src.nodeberzier import nodeberzier
 from src.highlight_syntax import highlight
