@@ -3,7 +3,7 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from code_server import interpreter_code
+from src.code_server import interpreter_code
 import tkinter as tk
 from src.nodeberzier import nodeberzier
 from src.highlight_syntax import highlight
@@ -14,7 +14,7 @@ ctk.set_appearance_mode("dark")
 # Define your base directory
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Define colors and other constants
+# Define colors
 PRIMARY_COLOR = "#78ABA8"
 ORANGE_PALLETE = "#EF9C66"
 YELLOW_PALLETE = "#FCDC94"
@@ -26,6 +26,7 @@ BACKGROUND_COLOR = "#343a40"
 TEXT_COLOR = "#ffffff"
 DARK_COLOR = "#000000"
 
+# Define Font
 FONT = "Consolas"
 
 # Define constant toggle visual or code
