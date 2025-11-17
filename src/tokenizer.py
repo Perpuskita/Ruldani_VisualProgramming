@@ -81,7 +81,7 @@ class token():
 
 class tokenizer():
     def __init__(self, text):
-        self.token = self.parse_token(text)
+        self.token = self.make_token(text)
 
     def detection(self, char, DEF):
         for separate in DEF:
@@ -117,7 +117,8 @@ class tokenizer():
         
         return None
 
-    def parse_token(self, text):
+    # tokenisasi token
+    def make_token(self, text):
         temp = ""
         tab = 0
         line = 1

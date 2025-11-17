@@ -1,4 +1,13 @@
-import src.color_manager as cm
+if __name__ == "__main__":
+    import color_manager as cm
+    from lexer import lexical_analysis as lexer
+    from tokenizer import tokenizer
+
+else:
+    import src.color_manager as cm
+    from src.lexer import lexical_analysis as lexer
+    from src.tokenizer import tokenizer
+
 
 ORANGE_PALLETE = cm.ORANGE_PALLETE
 YELLOW_PALLETE = cm.YELLOW_PALLETE
@@ -39,8 +48,13 @@ class highlight ():
         self.textbox = text
         self.raw_text = text.get("1.0", "end")
         self.token = tokenizer(self.raw_text)
+        self.lexer = lexer()
         self.highlight_token()
     
+    def lexer ():
+
+        return
+
     def highlight_token( self ):
         profil = self.token.token
 
@@ -55,7 +69,6 @@ class highlight ():
             # token.print_token()
     
 if __name__ == "__main__":
-    from tokenizer import tokenizer
     import tkinter as tk
 
     def analisa_biner(path) :
@@ -112,6 +125,3 @@ deteksi_tepi_folder_images('{path}')'''
     high = highlight(textbox)
 
     root.mainloop()
-
-else : 
-    from src.tokenizer import tokenizer
