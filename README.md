@@ -12,6 +12,6 @@
 ## Roadmap
 * [x] Visual programming core build
 * [ ] Penambahan jenis - jenis parameter 
-* [ ] Penambahan code external
+* [ ] Penambahan fitur untuk import code external
 * [ ] Migrasi ke PyQt
 * [ ] Optimalisasi code backend dengan C
