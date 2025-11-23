@@ -4,9 +4,9 @@
 ---
 
 ## 🎯 Our Mission
-*   ✅ **Fast learning and development:** Mempercepat pembelajaran dan pengembangan project tertentu
-*   ✅ **Keep it simple:** Mudah dibaca, sekali lihat mampu mengerti maksud dan tujuan dari apa yang dikerjakan orang lain
-*   ✅ **Diagramize algoritm:** Ibarat gambar mampu menjelaskan 1000 kata, diagram mampu ditranspile menjadi 1000 baris code
+*   ✅ **Fast learning and development:** Mempercepat pembelajaran dan pengembangan project bahasa pemograman
+*   ✅ **Keep it simple:** Mudah dibaca, pengabangan berbasis node
+*   ✅ **Diagramize algoritm:** Ibarat gambar mampu menjelaskan 1000 kata, diagram mampu mentranspile 1000 baris code ( canda ygy 🎃)
 *   ✅ **Translate it on anything:** Mentranspile diagram ke dalam banyak bahasa atau framework
 
 ## Roadmap
@@ -15,4 +15,5 @@
 * [ ] Penambahan fitur untuk import code external
 * [ ] Migrasi ke PyQt
 * [ ] Optimalisasi code backend dengan golang
-* [ ] Mengalahkan raja golang ahmad
+* [ ] Mengalahkan raja golang, ahmad
+* [ ] Bahasa pemograman lain
