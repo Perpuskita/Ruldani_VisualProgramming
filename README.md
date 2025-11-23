@@ -14,4 +14,5 @@
 * [ ] Penambahan jenis - jenis parameter 
 * [ ] Penambahan fitur untuk import code external
 * [ ] Migrasi ke PyQt
-* [ ] Optimalisasi code backend dengan C
+* [ ] Optimalisasi code backend dengan golang
+* [ ] Mengalahkan raja golang ahmad
