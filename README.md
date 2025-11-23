@@ -4,7 +4,7 @@
 ---
 
 ## 🎯 Our Mission
-*   ✅ **Fast learning and development:** Mempercepat pembelajaran dan pengembangan project bahasa pemograman
+*   ✅ **Fast learning and development:** Mempercepat pembelajaran dan pengembangan project
 *   ✅ **Keep it simple:** Mudah dibaca, pengabangan berbasis node
 *   ✅ **Diagramize algoritm:** Ibarat gambar mampu menjelaskan 1000 kata, diagram mampu mentranspile 1000 baris code ( canda ygy 🎃)
 *   ✅ **Translate it on anything:** Mentranspile diagram ke dalam banyak bahasa atau framework
