@@ -16,4 +16,4 @@
 * [ ] Migrasi ke PyQt
 * [ ] Optimalisasi code backend dengan golang
 * [ ] Mengalahkan raja golang, ahmad
-* [ ] Bahasa pemograman lain
+* [ ] Transpile ke Bahasa pemograman lain
