@@ -19,7 +19,6 @@ CYAN_PALLETE = cm.CYAN_PALLETE
 GRAY_PALLETE = cm.GRAY_PALLETE
 
 # non pallete colour
-HOVER_COLOR = cm.HOVER_COLOR
 BACKGROUND_COLOR = cm.BACKGROUND_COLOR
 TEXT_COLOR = cm.TEXT_COLOR
 DARK_COLOR = cm.DARK_COLOR
@@ -58,6 +57,7 @@ class highlight ():
     def highlight_token( self ):
         profil = self.token.token
 
+        # configurasi sementara sebelum melakukan parser
         for i, types in enumerate(TYPE_TOKEN):
             self.textbox.tag_configure(types, foreground=COLOR_TOKEN[i])
 
@@ -70,31 +70,23 @@ class highlight ():
     
 if __name__ == "__main__":
     import tkinter as tk
+    import os
 
-    def analisa_biner(path) :
-        return f'''
-import numpy as np
-import matplotlib.pyplot as plt
-import tkinter as tk
+    def read_file_to_string(file_path):
+        """Membaca file text menjadi string dengan error handling"""
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        try:
+            with open(f"{base_dir}/test/button.py", 'r', encoding='utf-8') as file:
+                return file.read()
+        except FileNotFoundError:
+            print(f"Error: File '{file_path}' tidak ditemukan")
+            return None
+        except Exception as e:
+            print(f"Error membaca file: {e}")
+            return None
 
-
-# baris untuk open folder 
-folder = '/content/test'
-
-# Fungsi untuk melakukan transformasi Fourier pada gambar dalam folder
-def deteksi_tepi_folder_images(folder_path):
-
-    for filename in os.listdir(folder_path):
-        if filename.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
-            image_path = os.path.join(folder_path, filename)
-
-            # Baca gambar dan lakukan Fourier Transform
-            image = Image.open(image_path).convert('L')
-
-            # Konversi ke numpy array untuk kompatibilitas dengan cv2
-            image_np = np.array(image)
-
-deteksi_tepi_folder_images('{path}')'''
+    # Usage
+    content = read_file_to_string('test\\button.py')
 
     root = tk.Tk()
     root.geometry("1080x720")
@@ -115,7 +107,7 @@ deteksi_tepi_folder_images('{path}')'''
     )
     textbox.pack(expand=True, fill="both")
 
-    text = analisa_biner("/pathini/")
+    text = content
     # configure 
     textbox.configure(state="normal")
     textbox.delete("1.0", "end")

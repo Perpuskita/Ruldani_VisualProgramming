@@ -7,6 +7,7 @@ from src.code_server import interpreter_code
 import tkinter as tk
 from src.nodeberzier import nodeberzier
 from src.highlight_syntax import highlight
+import src.color_manager as cm
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")
@@ -15,16 +16,16 @@ ctk.set_appearance_mode("dark")
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Define colors
-PRIMARY_COLOR = "#78ABA8"
-ORANGE_PALLETE = "#EF9C66"
-YELLOW_PALLETE = "#FCDC94"
-LIGHT_GREEN_PALLETE = "#C8CFA0"
-SECONDARY_COLOR = "#646464"
-GREEN_PALLETE = "#78ABA8"
-HOVER_COLOR = "#0056b3"
-BACKGROUND_COLOR = "#343a40"
-TEXT_COLOR = "#ffffff"
-DARK_COLOR = "#000000"
+CYAN_PALLETE = cm.CYAN_PALLETE
+ORANGE_PALLETE = cm.ORANGE_PALLETE
+YELLOW_PALLETE = cm.ORANGE_PALLETE
+LIGHT_GREEN_PALLETE = cm.LIGHT_GREEN_PALLETE
+
+# non pallete colors
+SECONDARY_COLOR = cm.SECONDARY_COLOR
+BACKGROUND_COLOR = cm.BACKGROUND_COLOR
+TEXT_COLOR = cm.TEXT_COLOR
+DARK_COLOR = cm.DARK_COLOR
 
 # Define Font
 FONT = "Consolas"
@@ -323,17 +324,17 @@ if __name__ == "__main__":
             # sub button folder
             SubButton("folder",
                       "folder.png",
-                      GREEN_PALLETE),
+                      LIGHT_GREEN_PALLETE),
             # sub button gdrive
             SubButton("gdrive folder",
                       "gdrive.png",
-                      GREEN_PALLETE)
+                      LIGHT_GREEN_PALLETE)
         ]),
         Button("Konsep Pendahuluan", "cpm1.png", [
             # sub button pembentukan citra
             SubButton("pembentukan citra",
                       "pembentukan citra.png",
-                      LIGHT_GREEN_PALLETE),
+                      CYAN_PALLETE),
         ]),
         Button("Pengolahan\nCitra digital", "cpm2.png", [
             # sub button analisa binner
@@ -563,7 +564,7 @@ if __name__ == "__main__":
             # If code button is active, show code frame and hide visual frame
             code_frame.grid(row=2, column=0, pady=0, sticky="nsew")
             visual_frame.grid_remove()
-            code_button.configure(state="disabled", fg_color=GREEN_PALLETE, text_color=DARK_COLOR)
+            code_button.configure(state="disabled", fg_color=LIGHT_GREEN_PALLETE, text_color=DARK_COLOR)
             visual_button.configure(state="normal", fg_color="#2B2B2B", text_color=TEXT_COLOR)
             
             # connection text code
@@ -636,7 +637,7 @@ if __name__ == "__main__":
         height=30,
         corner_radius=5,
         fg_color=BACKGROUND_COLOR,
-        hover_color=GREEN_PALLETE,
+        hover_color=LIGHT_GREEN_PALLETE,
         command=on_code_button_click,
         text_color_disabled= DARK_COLOR
     )
