@@ -3,10 +3,11 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from src.codesaver import interpreter_code
+from src.code_server import interpreter_code
 import tkinter as tk
 from src.nodeberzier import nodeberzier
 from src.highlight_syntax import highlight
+import src.color_manager as cm
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")
@@ -14,18 +15,19 @@ ctk.set_appearance_mode("dark")
 # Define your base directory
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Define colors and other constants
-PRIMARY_COLOR = "#78ABA8"
-ORANGE_PALLETE = "#EF9C66"
-YELLOW_PALLETE = "#FCDC94"
-LIGHT_GREEN_PALLETE = "#C8CFA0"
-SECONDARY_COLOR = "#646464"
-GREEN_PALLETE = "#78ABA8"
-HOVER_COLOR = "#0056b3"
-BACKGROUND_COLOR = "#343a40"
-TEXT_COLOR = "#ffffff"
-DARK_COLOR = "#000000"
+# Define colors
+CYAN_PALLETE = cm.CYAN_PALLETE
+ORANGE_PALLETE = cm.ORANGE_PALLETE
+YELLOW_PALLETE = cm.ORANGE_PALLETE
+LIGHT_GREEN_PALLETE = cm.LIGHT_GREEN_PALLETE
 
+# non pallete colors
+SECONDARY_COLOR = cm.SECONDARY_COLOR
+BACKGROUND_COLOR = cm.BACKGROUND_COLOR
+TEXT_COLOR = cm.TEXT_COLOR
+DARK_COLOR = cm.DARK_COLOR
+
+# Define Font
 FONT = "Consolas"
 
 # Define constant toggle visual or code
@@ -322,17 +324,17 @@ if __name__ == "__main__":
             # sub button folder
             SubButton("folder",
                       "folder.png",
-                      GREEN_PALLETE),
+                      LIGHT_GREEN_PALLETE),
             # sub button gdrive
             SubButton("gdrive folder",
                       "gdrive.png",
-                      GREEN_PALLETE)
+                      LIGHT_GREEN_PALLETE)
         ]),
         Button("Konsep Pendahuluan", "cpm1.png", [
             # sub button pembentukan citra
             SubButton("pembentukan citra",
                       "pembentukan citra.png",
-                      LIGHT_GREEN_PALLETE),
+                      CYAN_PALLETE),
         ]),
         Button("Pengolahan\nCitra digital", "cpm2.png", [
             # sub button analisa binner
@@ -362,14 +364,49 @@ if __name__ == "__main__":
 
     text_code = ""
 
+    paneling = { "sidebar": 1 } 
+
     # Create main window
     root = tk.Tk()
     root.geometry("1080x720")
     root.title("Ruldani - Visual Programming")
 
+    menu_bar = ctk.CTkFrame(root, width=1080, height=30, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    menu_bar.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
+
+    workspace = ctk.CTkFrame(root, corner_radius=0)
+    workspace.grid(row=1, column=0, sticky="nsew")
+
+    # Configure columns and rows to allow resizing
+    root.grid_rowconfigure(0, weight=0)
+    root.grid_rowconfigure(1, weight=1)
+
+    # configure workspace grid configure
+    root.grid_columnconfigure(0, weight= 1)
+    
+
+    workspace.grid_columnconfigure(0, weight=0)
+    workspace.grid_columnconfigure(1, weight=0)
+    workspace.grid_columnconfigure(2, weight=1)
+    workspace.grid_columnconfigure(3, weight=0)
+
+    workspace.grid_rowconfigure(0, weight=1)
+
+
     # Create sidebar frame
-    sidebar = ctk.CTkFrame(root, width=200, height=500, corner_radius=0, bg_color=BACKGROUND_COLOR)
-    sidebar.grid(row=0, column=0, sticky="nsw")
+    setting = ctk.CTkFrame(workspace, width=50, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    setting.grid(row=0, column=0, sticky="ns")
+
+    # Create sidebar frame
+    sidebar = ctk.CTkFrame(workspace, width=100, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    sidebar.grid(row=0, column=1, sticky="nsw")
+    
+    # Create content area and other widgets
+    content = ctk.CTkFrame(workspace, width=800, corner_radius=0, fg_color="#252525")
+    content.grid(row=0, column=2, sticky="nsew")  # Make content frame expandable
+
+    preference_frame = ctk.CTkFrame(workspace, width=200, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    preference_frame.grid(row=0, column=3, sticky="ns")
 
     # Create sidebar label
     sidebar_label = ctk.CTkLabel(sidebar, text="Connection", font=(FONT, 16, "bold"), text_color=TEXT_COLOR)
@@ -493,7 +530,7 @@ if __name__ == "__main__":
     def show_frame(event, icon, name):
         subbutton = event.widget
         frame = ctk.CTkFrame(master=root, width=120, height=100, corner_radius=0, fg_color=SECONDARY_COLOR)
-        frame.place(x=180 + 20, y=subbutton.winfo_rooty() - root.winfo_rooty())
+        frame.place(x=200 + 50, y=subbutton.winfo_rooty() - root.winfo_rooty())
         
         subbutton.hover_frame = frame
 
@@ -522,10 +559,6 @@ if __name__ == "__main__":
 
     # Create sidebar buttons
     create_sidebar_buttons()
-
-    # Create content area and other widgets
-    content = ctk.CTkFrame(root, width=600, height=500, corner_radius=0, fg_color="#252525")
-    content.grid(row=0, column=1, sticky="nsew")  # Make content frame expandable
 
     # Configure grid for content area
     content.grid_columnconfigure(0, weight=1)
@@ -562,7 +595,7 @@ if __name__ == "__main__":
             # If code button is active, show code frame and hide visual frame
             code_frame.grid(row=2, column=0, pady=0, sticky="nsew")
             visual_frame.grid_remove()
-            code_button.configure(state="disabled", fg_color=GREEN_PALLETE, text_color=DARK_COLOR)
+            code_button.configure(state="disabled", fg_color=LIGHT_GREEN_PALLETE, text_color=DARK_COLOR)
             visual_button.configure(state="normal", fg_color="#2B2B2B", text_color=TEXT_COLOR)
             
             # connection text code
@@ -585,7 +618,7 @@ if __name__ == "__main__":
         toggle_visual_or_code = True
         toggle_buttons()
 
-    # Preferences Menu
+    # Preferences Menu panel settings
     def update_preference(event, self):
 
         for widget in preference_frame.winfo_children():
@@ -635,7 +668,7 @@ if __name__ == "__main__":
         height=30,
         corner_radius=5,
         fg_color=BACKGROUND_COLOR,
-        hover_color=GREEN_PALLETE,
+        hover_color=LIGHT_GREEN_PALLETE,
         command=on_code_button_click,
         text_color_disabled= DARK_COLOR
     )
@@ -706,13 +739,8 @@ if __name__ == "__main__":
     )
     copy_button.grid(row=0, column=0, padx=5, pady=5, sticky="se")  # Tempelkan tombol ke pojok kanan bawah
 
-    preference_frame = ctk.CTkFrame(root, width=200, height=500, corner_radius=0)
-    preference_frame.grid(row=0, column=2, sticky="ns")
+    
     void_preference() #initial preference
-
-    # Configure columns and rows to allow resizing
-    root.grid_columnconfigure(1, weight=1)
-    root.grid_rowconfigure(0, weight=1)
 
     # Run the application
     root.mainloop()

@@ -1,9 +1,11 @@
+import src.color_manager as cm
+
 
 # warna node
-default = "#808080"
-path = "#ff7b00"
-plt = "#4421a7"
-output = "#00ff00"
+default = cm.GRAY_PALLETE
+path = cm.RED_PALLETE
+plt = cm.RED_PALLETE
+output = cm.CYAN_PALLETE
 
 
 # Kelas untuk membuat berzier curve

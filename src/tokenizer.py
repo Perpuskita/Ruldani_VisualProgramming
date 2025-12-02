@@ -17,7 +17,7 @@ FUNC = [
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is"
+    "class", "import", "from", "as", "in", "#", "is","pass"
 ]
 
 OPERATOR = [
@@ -26,11 +26,12 @@ OPERATOR = [
 ]
 
 class token():
-    def __init__(self, name, begin, end):
+    def __init__(self, name, begin: int = 1, end: int = 1):
         self.name   = name
         self.begin  = begin
         self.end    = end
         self.type   = self.type_token()
+        self.priority = 1
         # self.print_token()
 
     def detection(self, char, DEF):
@@ -81,7 +82,7 @@ class token():
 
 class tokenizer():
     def __init__(self, text):
-        self.token = self.parse_token(text)
+        self.token = self.make_token(text)
 
     def detection(self, char, DEF):
         for separate in DEF:
@@ -117,7 +118,8 @@ class tokenizer():
         
         return None
 
-    def parse_token(self, text):
+    # tokenisasi token
+    def make_token(self, text):
         temp = ""
         tab = 0
         line = 1
@@ -234,4 +236,6 @@ def deteksi_tepi_folder_images(folder_path):
 
 deteksi_tepi_folder_images('{path}')'''
     
-    token = tokenizer(analisa_biner("/path_ini_/")) 
+    token = tokenizer(analisa_biner("/path_ini_/"))
+    for token_n in token.token:
+        token_n.print_token()
