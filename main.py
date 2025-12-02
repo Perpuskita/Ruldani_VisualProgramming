@@ -364,14 +364,49 @@ if __name__ == "__main__":
 
     text_code = ""
 
+    paneling = { "sidebar": 1 } 
+
     # Create main window
     root = tk.Tk()
     root.geometry("1080x720")
     root.title("Ruldani - Visual Programming")
 
+    menu_bar = ctk.CTkFrame(root, width=1080, height=30, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    menu_bar.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
+
+    workspace = ctk.CTkFrame(root, corner_radius=0)
+    workspace.grid(row=1, column=0, sticky="nsew")
+
+    # Configure columns and rows to allow resizing
+    root.grid_rowconfigure(0, weight=0)
+    root.grid_rowconfigure(1, weight=1)
+
+    # configure workspace grid configure
+    root.grid_columnconfigure(0, weight= 1)
+    
+
+    workspace.grid_columnconfigure(0, weight=0)
+    workspace.grid_columnconfigure(1, weight=0)
+    workspace.grid_columnconfigure(2, weight=1)
+    workspace.grid_columnconfigure(3, weight=0)
+
+    workspace.grid_rowconfigure(0, weight=1)
+
+
     # Create sidebar frame
-    sidebar = ctk.CTkFrame(root, width=200, height=500, corner_radius=0, bg_color=BACKGROUND_COLOR)
-    sidebar.grid(row=0, column=0, sticky="nsw")
+    setting = ctk.CTkFrame(workspace, width=50, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    setting.grid(row=0, column=0, sticky="ns")
+
+    # Create sidebar frame
+    sidebar = ctk.CTkFrame(workspace, width=100, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    sidebar.grid(row=0, column=1, sticky="nsw")
+    
+    # Create content area and other widgets
+    content = ctk.CTkFrame(workspace, width=800, corner_radius=0, fg_color="#252525")
+    content.grid(row=0, column=2, sticky="nsew")  # Make content frame expandable
+
+    preference_frame = ctk.CTkFrame(workspace, width=200, corner_radius=0, fg_color=BACKGROUND_COLOR)
+    preference_frame.grid(row=0, column=3, sticky="ns")
 
     # Create sidebar label
     sidebar_label = ctk.CTkLabel(sidebar, text="Connection", font=(FONT, 16, "bold"), text_color=TEXT_COLOR)
@@ -495,7 +530,7 @@ if __name__ == "__main__":
     def show_frame(event, icon, name):
         subbutton = event.widget
         frame = ctk.CTkFrame(master=root, width=120, height=100, corner_radius=0, fg_color=SECONDARY_COLOR)
-        frame.place(x=180 + 20, y=subbutton.winfo_rooty() - root.winfo_rooty())
+        frame.place(x=200 + 50, y=subbutton.winfo_rooty() - root.winfo_rooty())
         
         subbutton.hover_frame = frame
 
@@ -524,10 +559,6 @@ if __name__ == "__main__":
 
     # Create sidebar buttons
     create_sidebar_buttons()
-
-    # Create content area and other widgets
-    content = ctk.CTkFrame(root, width=600, height=500, corner_radius=0, fg_color="#252525")
-    content.grid(row=0, column=1, sticky="nsew")  # Make content frame expandable
 
     # Configure grid for content area
     content.grid_columnconfigure(0, weight=1)
@@ -587,7 +618,7 @@ if __name__ == "__main__":
         toggle_visual_or_code = True
         toggle_buttons()
 
-    # Preferences Menu
+    # Preferences Menu panel settings
     def update_preference(event, self):
 
         for widget in preference_frame.winfo_children():
@@ -708,13 +739,8 @@ if __name__ == "__main__":
     )
     copy_button.grid(row=0, column=0, padx=5, pady=5, sticky="se")  # Tempelkan tombol ke pojok kanan bawah
 
-    preference_frame = ctk.CTkFrame(root, width=200, height=500, corner_radius=0)
-    preference_frame.grid(row=0, column=2, sticky="ns")
+    
     void_preference() #initial preference
-
-    # Configure columns and rows to allow resizing
-    root.grid_columnconfigure(1, weight=1)
-    root.grid_rowconfigure(0, weight=1)
 
     # Run the application
     root.mainloop()
