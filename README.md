@@ -1,7 +1,7 @@
 # Ruldani_VisualProgramming
  Project pembuatan library python yang bertujuan untuk pengembangan teknologi visual programming 
-![Menu](./docs/Visual_Programming_Menu.png)
-![Code](./docs/Visual_Programming_Code.png)
+![Menu](./doc/Visual_Programming_Menu.png)
+![Code](./doc/Visual_Programming_Code.png)
 ---
 
 ## 🎯 Our Mission
