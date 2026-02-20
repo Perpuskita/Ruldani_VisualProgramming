@@ -4,9 +4,9 @@ if __name__ == "__main__":
     from tokenizer import tokenizer
 
 else:
-    import src.color_manager as cm
-    from src.lexer import lexical_analysis as lexer
-    from src.tokenizer import tokenizer
+    import ruldani_visual_programming.color_manager as cm
+    from ruldani_visual_programming.lexer import lexical_analysis as lexer
+    from ruldani_visual_programming.tokenizer import tokenizer
 
 
 ORANGE_PALLETE = cm.ORANGE_PALLETE

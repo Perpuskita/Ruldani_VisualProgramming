@@ -3,11 +3,9 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from src.code_server import interpreter_code
+from ruldani_visual_programming import interpreter_code, nodeberzier, highlight
 import tkinter as tk
-from src.nodeberzier import nodeberzier
-from src.highlight_syntax import highlight
-import src.color_manager as cm
+import ruldani_visual_programming.color_manager as cm
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")

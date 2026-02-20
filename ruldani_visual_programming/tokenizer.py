@@ -209,6 +209,10 @@ class tokenizer():
         
         return token_stream
 
+class parsing:
+    def __init__(self):
+        pass
+
 
 if __name__ == "__main__":
     def analisa_biner(path) :
