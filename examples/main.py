@@ -3,11 +3,11 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from src.code_server import interpreter_code
+from ruldani_visual_programming.utils import interpreter_code, nodeberzier, highlight
 import tkinter as tk
-from src.nodeberzier import nodeberzier
-from src.highlight_syntax import highlight
-import src.color_manager as cm
+import ruldani_visual_programming.utils.color_manager as cm
+
+from ruldani_visual_programming.utils import Button, SubButton
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")
@@ -36,66 +36,6 @@ node_container = []
 nodeberzier_container = []
 zoom_level = 1.0
 active_line = None
-
-# Kelas untuk Button
-class Button:
-    def __init__(self, button_name, icon_button, sub_buttons=None):
-        self.button_name = button_name
-        self.icon_button = self._create_image(icon_button)
-        self.sub_buttons = sub_buttons if sub_buttons else []
-        self.expand_status = False  # Initialize expand status
-        self.subbutton_frame = None  # To hold the frame for sub-buttons
-        self.main_button = None
-
-    def get_icon_path(self, filename):
-        return os.path.join(base_dir, "icons", filename)
-    
-    def _create_image(self, icon_button):
-        icon_path = self.get_icon_path(icon_button)
-        return ctk.CTkImage(Image.open(icon_path), size=(16, 16))
-
-    def toggle_expand(self):
-        self.expand_status = not self.expand_status
-    
-    def toggle_expand_off(self):
-        self.expand_status = False
-
-# Kelas untuk Sub_Button
-class SubButton:
-    def __init__(self, sub_button_name, sub_button_icon, hover_color, input = [], output = []):
-        self.sub_button_name = sub_button_name
-        self.icon_path = self.get_icon_path(sub_button_icon)
-        self.sub_button_icon = self._create_image(height=15, width=15)
-        self.hover_color = hover_color
-        self.interpreter = self.node_container(sub_button_name)
-        self.input = self.input_node()
-        self.output = self.output_node()
-
-    def _create_image(self, height = 15 , width = 15):
-        return ctk.CTkImage(Image.open(self.icon_path), size=(height, width))
-
-    # Fungsi untuk membuat baris node 
-    # Menghasilkan container dari kelas interpreter
-    def node_container(self, name):
-        # print(f"inisialisasi dari kelas interpreter {name}")
-        return interpreter_code(name)
-
-    # input dari kelas interpreter code
-    # mengahasilkan list dari input interpreter code
-    def input_node(self):
-        # print(f"type input interpreter {self.sub_button_name}")
-        # for n in self.interpreter.input:
-        #     print(f"{n}\n")
-        return self.interpreter.input
-
-    def output_node(self):
-        # print(f"type output interpreter {self.sub_button_name}")
-        # for n in self.interpreter.output:
-        #     print(f"{n}\n")
-        return self.interpreter.output
-
-    def get_icon_path(self, filename):
-        return os.path.join(base_dir, "icons", filename)
 
 # Kelas untuk Dragable Node
 class DraggableNode(ctk.CTkFrame):
@@ -362,6 +302,19 @@ if __name__ == "__main__":
         ])
     ]
 
+    def workspace_panel(workspace: ctk.CTkFrame):
+        workspace.grid(row=1, column=0, sticky="nsew")
+        workspace.grid_columnconfigure(0, weight=0)
+        workspace.grid_columnconfigure(1, weight=0)
+        workspace.grid_columnconfigure(2, weight=1)
+        workspace.grid_columnconfigure(3, weight=0)
+        workspace.grid_rowconfigure(0, weight=1)
+
+    def menubar_panel(menu_bar: ctk.CTkFrame):
+        menu_bar.configure(fg_color= BACKGROUND_COLOR, corner_radius=0)
+        menu_bar.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
+
+
     text_code = ""
 
     paneling = { "sidebar": 1 } 
@@ -370,28 +323,19 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("1080x720")
     root.title("Ruldani - Visual Programming")
-
-    menu_bar = ctk.CTkFrame(root, width=1080, height=30, corner_radius=0, fg_color=BACKGROUND_COLOR)
-    menu_bar.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
-
-    workspace = ctk.CTkFrame(root, corner_radius=0)
-    workspace.grid(row=1, column=0, sticky="nsew")
-
+    
     # Configure columns and rows to allow resizing
     root.grid_rowconfigure(0, weight=0)
     root.grid_rowconfigure(1, weight=1)
 
     # configure workspace grid configure
     root.grid_columnconfigure(0, weight= 1)
-    
 
-    workspace.grid_columnconfigure(0, weight=0)
-    workspace.grid_columnconfigure(1, weight=0)
-    workspace.grid_columnconfigure(2, weight=1)
-    workspace.grid_columnconfigure(3, weight=0)
+    menu_bar = ctk.CTkFrame(root, width=1080, height=30)
+    menubar_panel(menu_bar=menu_bar)
 
-    workspace.grid_rowconfigure(0, weight=1)
-
+    workspace = ctk.CTkFrame(root, corner_radius=0)
+    workspace_panel(workspace=workspace)
 
     # Create sidebar frame
     setting = ctk.CTkFrame(workspace, width=50, corner_radius=0, fg_color=BACKGROUND_COLOR)
@@ -469,17 +413,17 @@ if __name__ == "__main__":
 
         update_sidebar_buttons()
 
+    def toggle_expand_off(button: ctk.CTkButton):
+        button.toggle_expand_off()
+        if button.expand_status:
+            button.subbutton_frame.grid()
+            button.main_button.configure(fg_color=SECONDARY_COLOR)
+
+        else:
+            button.subbutton_frame.grid_remove()
+            button.main_button.configure(fg_color="transparent", hover_color=SECONDARY_COLOR)
+   
     def  update_sidebar_buttons(): 
-
-        def toggle_expand_off(button):
-            button.toggle_expand_off()
-            if button.expand_status:
-                button.subbutton_frame.grid()
-                button.main_button.configure(fg_color=SECONDARY_COLOR)
-
-            else:
-                button.subbutton_frame.grid_remove()
-                button.main_button.configure(fg_color="transparent", hover_color=SECONDARY_COLOR)
 
         if not node_container:
             for index in range(1, len(buttons)):
@@ -493,13 +437,11 @@ if __name__ == "__main__":
             buttons[0].main_button.configure(state="disabled")
             toggle_expand_off(buttons[0])
 
-
     def on_double_click(event, name, icon):
         global toggle_visual_or_code
         if toggle_visual_or_code:  # If the visual frame is active
             spawn_node(name, icon)
         update_sidebar_buttons()
-
 
     def spawn_node(name, icon):
         # Random offset between 10 and 20 pixels, converted to relative values based on the visual frame size
@@ -660,8 +602,8 @@ if __name__ == "__main__":
                 link_entry.bind("<KeyRelease>", update_info)
                 values.append(link_entry)
 
-
-    code_button = ctk.CTkButton(
+    def code_button_widget(button_frame: ctk.CTkFrame):
+        code_button = ctk.CTkButton(
         master=button_frame,
         text="Code",
         width=80,
@@ -671,8 +613,12 @@ if __name__ == "__main__":
         hover_color=LIGHT_GREEN_PALLETE,
         command=on_code_button_click,
         text_color_disabled= DARK_COLOR
-    )
-    code_button.grid(row=0, column=0, padx=5, pady=5)
+        )
+        code_button.grid(row=0, column=0, padx=5, pady=5)
+
+        return code_button
+
+    code_button = code_button_widget(button_frame=button_frame)
 
     visual_button = ctk.CTkButton(
         master=button_frame,

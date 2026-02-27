@@ -18,3 +18,14 @@
 * [ ] Optimalisasi code backend dengan golang
 * [ ] Mengalahkan raja golang, ahmad
 * [ ] Transpile ke Bahasa pemograman lain
+
+
+## Urgent Project
+Modularisasi class
+berikan pada interpreter class pada class button
+
+Tambahkan variant input dan output node
+Tambakan 2 atau lebih input dan output pada draggable class
+Beri warna pada Berzier Curve untuk menandai variant node
+
+Modularisasi update preference

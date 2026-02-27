@@ -1,4 +1,4 @@
-import src.color_manager as cm
+import ruldani_visual_programming.utils.color_manager as cm
 
 
 # warna node

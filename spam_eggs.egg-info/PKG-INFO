@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: spam-eggs
+Version: 0.1.0
+License-File: LICENSE
+Requires-Dist: customtkinter
+Requires-Dist: pillow
+Requires-Dist: pyperclip
+Dynamic: license-file

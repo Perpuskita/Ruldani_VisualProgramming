@@ -1,0 +1,14 @@
+[project]
+name = "ruldani_visual_programming"
+version = "0.1.0"
+dependencies = [
+  "customtkinter",
+  "pillow", "pyperclip"
+]
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"ruldani_visual_programming" = ["utils/icons/*.png", "utils/icons/*.jpg"]
