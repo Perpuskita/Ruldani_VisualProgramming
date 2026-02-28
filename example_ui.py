@@ -1,4 +1,4 @@
-from ruldani_visual_programming.utils.pages import button
+from ruldani_visual_programming.utils.pages import button, logo
 import tkinter as tk
 import customtkinter as ctk
 
@@ -11,7 +11,9 @@ if __name__ == "__main__":
     frame: ctk.CTkFrame = ctk.CTkFrame(master=App, height=200, width=300, fg_color="#363636")
     frame.grid(row=0, column=0, sticky = "n")
     frame.grid_propagate(False)
-    btn:ctk.CTkButton = button(frame, image="logo.png")
-    btn.grid(row=0, column=0)
+    # btn:ctk.CTkButton = button(frame, icon="logo.png")
+    # btn.grid(row=0, column=0)
+    logo_img = logo(master=frame, logo_image="logo.png")
+    logo_img.grid(row=0, column=0)
     App.mainloop()
     

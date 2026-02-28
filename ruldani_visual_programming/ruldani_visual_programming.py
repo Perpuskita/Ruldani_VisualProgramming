@@ -5,7 +5,7 @@ import tkinter as tk
 import random
 import pyperclip
 from ruldani_visual_programming.utils import interpreter_code, nodeberzier, highlight, image
-from ruldani_visual_programming.utils.pages import button, preference
+from ruldani_visual_programming.utils.pages import button, preference, logo, button_ribbon
 import tkinter as tk
 import ruldani_visual_programming.utils.color_manager as cm
 
@@ -80,14 +80,16 @@ class visual_programming(tk.Tk):
     
     def __init__(self):
         super().__init__()
-        self.make_window([1080, 720])
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        self.make_window([1440, 720])
 
     def make_window(self, geometry:list[int]) -> None:
 
         width = geometry[0]
-        heigt = geometry[1]
+        height = geometry[1]
 
-        self.geometry(f"{width}x{heigt}")
+        self.geometry(f"{width}x{height}")
         self.title("Ruldani - Visual Programming")
         
         # Configure columns and rows to allow resizing
@@ -112,18 +114,20 @@ class visual_programming(tk.Tk):
         preferences_menu = self.preference_menu(master=preference)
     
     def ribbon_widget(self, menubar: ctk.CTkFrame):
-        btn_home = ctk.CTkButton(menubar, width=50, height=10, text="save", fg_color=BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        btn_home.grid(row=0, column=1, padx=(10, 2), sticky="w")
 
-        btn_home = ctk.CTkButton(menubar, width=50, height=10, text="load", fg_color=BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        btn_home.grid(row=0, column=2, padx=2, sticky="w")
+        logo_menubar: ctk.CTkLabel = logo(master = menubar, logo_image= LOGO_IMAGE)
+        logo_menubar.grid(row=0, column=0, padx=(10,10), pady=5, sticky="nsew")
+        
+        text_title: list = ["save", "load", "tools", "help"]
 
-        btn_home = ctk.CTkButton(menubar, width=50, height=10, text="tools", fg_color=BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        btn_home.grid(row=0, column=3, padx=2, sticky="w")
-
-        btn_home = ctk.CTkButton(menubar, width=50, height=10, text="help", fg_color=BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        btn_home.grid(row=0, column=4, padx=2, sticky="w")
-
+        for i, title in enumerate(text_title):
+            padx: int = 5
+            if i == 0 :
+                padx = 10
+                
+            btn_home = button_ribbon(master=menubar, text=title)
+            btn_home.grid(row=0, column=i+1, padx=(padx, 2), sticky="w")
+        
         return btn_home
 
     def setting_sidebar_widget(self, master: ctk.CTkFrame):
@@ -131,23 +135,17 @@ class visual_programming(tk.Tk):
         img: list[str] = ["cpm1.png", "cpm2.png", "cpm3.png"]
 
         for i, image in enumerate(img):
-            atomic = button(master=master, image=image)
+            atomic = button(master=master, icon=image)
             if i == 0 :
                 atomic.grid(row=i, column=0, pady= (12, 5), padx=(5, 5), sticky="n")
 
             else :
                 atomic.grid(row=i, column=0, pady= (5, 5), padx=(5, 5), sticky="n")
 
-        # setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm2.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        # setting.grid(row=1, column=0, pady= 5, padx=(5, 5), sticky="n")
+        master.grid_rowconfigure(len(img), weight=1) 
 
-        # setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm3.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        # setting.grid(row=2, column=0, pady= 5, padx=(5, 5), sticky="n")
-
-        master.grid_rowconfigure(3, weight=1) 
-
-        tes = button(master=master, image="settings.png")
-        tes.grid(row=4, column=0, pady = 5, padx = 0, sticky="ns" )
+        tes = button(master=master, icon="settings.png")
+        tes.grid(row=len(img) + 1, column=0, pady = 5, padx = 0, sticky="ns" )
         return None
 
     # Create sidebar frame
@@ -174,7 +172,7 @@ class visual_programming(tk.Tk):
             text="Connection", 
             font=(FONT, 16, "bold"), 
             text_color=TEXT_COLOR,
-            anchor="center"  # 3. Teks rata tengah di dalam label
+            anchor="center" 
         )
         sidebar_label.grid(row=0, column=0, padx=20, pady=10, sticky="ew")  # 4. Label mengisi lebar kolom
 
@@ -200,7 +198,7 @@ class visual_programming(tk.Tk):
             text="Preference", 
             font=(FONT, 16, "bold"), 
             text_color=TEXT_COLOR,
-            anchor="center"  # 3. Teks rata tengah di dalam label
+            anchor="center" 
         )
 
         preference_label.grid(row=0, column=0, padx=20, pady=10, sticky="ew")  # 4. Label mengisi lebar kolom
@@ -233,11 +231,7 @@ class visual_programming(tk.Tk):
         menubar.configure(fg_color= BACKGROUND_COLOR, corner_radius=0)
         menubar.grid(row=0, column=0, sticky="ew", padx=0, pady=0)
         menubar.grid_propagate(False)
-        menubar.grid_columnconfigure((0, 1, 2), weight=0) 
-        
-        logo_str: ctk.CTkImage = image(LOGO_IMAGE, [15,15])
-        logo: ctk.CTkLabel = ctk.CTkLabel( master=menubar, image=logo_str, text= "")
-        logo.grid(row=0, column=0, padx=(10,10), pady=2, sticky="nsew")
+        menubar.grid_columnconfigure(0, weight=0) 
 
         return menubar
         

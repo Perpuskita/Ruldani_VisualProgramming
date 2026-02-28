@@ -3,30 +3,26 @@ from ruldani_visual_programming.utils import image
 from ruldani_visual_programming.utils import color_manager as cm
 
 class button(ctk.CTkButton):
-    def __init__(self, master, title: str = None, image: str = None, size: list[str] = [15,15], colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.SECONDARY_COLOR ):
-        super().__init__(master=master, fg_color=colour, hover_color=hover_colour, height=size[0], width=size[1])
-
-        if title != None and image != None:
-            self.with_text(title)
-        
-        elif title is not None :
-            self.with_text(title)
-        
-        else :
-            self.with_image(image_name=image)
-
-    def with_text(self, title: str) -> None:
-        self.configure(text=title, width=50, height=50)
-        return None
-    
-    def with_image(self, image_name: str ) -> None:
-        ukuran: int = 12
-        images = image(filename=image_name, dimension=[ukuran,ukuran])
+    def __init__(self, master, icon: str, size: int = 15, colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.SECONDARY_COLOR ):
+        super().__init__(master=master, fg_color=colour, hover_color=hover_colour, height=size, width=size)
+        ukuran: int = size - 3
+        images = image(filename=icon, dimension=[ukuran,ukuran])
         self.configure(image=images, text="", width = ukuran, height=ukuran+15)
-        return None
-    
-    def set_active(self) -> None:
-        return None
+
+class logo(ctk.CTkLabel):
+    def __init__(self, master, logo_image: str, width = 20, height = 20):
+        logo_img: ctk.CTkImage = image(logo_image, [15,15]) 
+        super().__init__(master, width, height, image = logo_img, text ="")
+
+class button_ribbon(ctk.CTkButton):
+    def __init__(self, master, text: str ):
+        super().__init__(master, width=50, height=10, text=text, fg_color=cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR)
+
+    def release_hover(self):
+        self.configure(font=("concolas", 12))
+
+    def on_hover(self):
+        self.configure(font=("concolas", 12, "underline"))
 
 class preference():
     def __init__(self):
