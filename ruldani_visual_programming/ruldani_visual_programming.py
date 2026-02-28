@@ -28,7 +28,6 @@ DARK_COLOR = cm.DARK_COLOR
 
 # Define Image
 LOGO_IMAGE = "sub_home.png"
-Image_Pil = image()
 
 # Define Font
 FONT = "Consolas"
@@ -128,22 +127,28 @@ class visual_programming(tk.Tk):
         return btn_home
 
     def setting_sidebar_widget(self, master: ctk.CTkFrame):
-        atomic = button()
 
-        setting = atomic.button_with_image(master=master, size=[15,15], icon_name="cpm1.png", fg_color=ORANGE_PALLETE, hover_color=SECONDARY_COLOR)
-        setting.grid(row=0, column=0, pady= (15, 5), padx=(5, 5), sticky="n")
+        img: list[str] = ["cpm1.png", "cpm2.png", "cpm3.png"]
 
-        setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm2.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        setting.grid(row=1, column=0, pady= 5, padx=(5, 5), sticky="n")
+        for i, image in enumerate(img):
+            atomic = button(master=master, image=image)
+            if i == 0 :
+                atomic.grid(row=i, column=0, pady= (12, 5), padx=(5, 5), sticky="n")
 
-        setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm3.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
-        setting.grid(row=2, column=0, pady= 5, padx=(5, 5), sticky="n")
+            else :
+                atomic.grid(row=i, column=0, pady= (5, 5), padx=(5, 5), sticky="n")
+
+        # setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm2.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
+        # setting.grid(row=1, column=0, pady= 5, padx=(5, 5), sticky="n")
+
+        # setting = atomic.button_with_image(master=master, size=[15, 15], icon_name= "cpm3.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
+        # setting.grid(row=2, column=0, pady= 5, padx=(5, 5), sticky="n")
 
         master.grid_rowconfigure(3, weight=1) 
 
-        tes = atomic.button_with_image(master=master, size=[15, 15], icon_name= "settings.png",fg_color= BACKGROUND_COLOR, hover_color=SECONDARY_COLOR)
+        tes = button(master=master, image="settings.png")
         tes.grid(row=4, column=0, pady = 5, padx = 0, sticky="ns" )
-        return setting
+        return None
 
     # Create sidebar frame
     def setting_widget(self, workspace: ctk.CTkFrame) -> ctk.CTkFrame:
@@ -230,7 +235,7 @@ class visual_programming(tk.Tk):
         menubar.grid_propagate(False)
         menubar.grid_columnconfigure((0, 1, 2), weight=0) 
         
-        logo_str: ctk.CTkImage = Image_Pil.get_image(LOGO_IMAGE, [15,15])
+        logo_str: ctk.CTkImage = image(LOGO_IMAGE, [15,15])
         logo: ctk.CTkLabel = ctk.CTkLabel( master=menubar, image=logo_str, text= "")
         logo.grid(row=0, column=0, padx=(10,10), pady=2, sticky="nsew")
 

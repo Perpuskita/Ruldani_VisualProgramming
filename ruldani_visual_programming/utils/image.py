@@ -2,18 +2,13 @@ from PIL import Image
 import os
 import customtkinter as ctk
 
-class image:
-    def __init__(self):
-        self.base_dir = os.path.dirname(os.path.abspath(__file__))
-        pass
-    
-    def get_image(self, filename: str, dimension: list[int]) -> ctk.CTkImage:
-        icon_path = os.path.join(self.base_dir, "icons", filename)
-        icon = ctk.CTkImage(Image.open(icon_path), size=(dimension[0], dimension[1]))
-        return icon
-
+class image(ctk.CTkImage):
+    def __init__(self, filename: str, dimension: list[int]):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(base_dir, "icons", filename)
+        image_pil = Image.open(icon_path)
+        super().__init__(light_image=image_pil, dark_image=image_pil, size=(dimension[0], dimension[1]))
 
 if __name__ == "__main__":
-    img = image()
-    hasil = img.get_image("logo.png", [25, 25])
-    print(hasil)
+    img = image("logo.png", [20,20])
+    print(img)

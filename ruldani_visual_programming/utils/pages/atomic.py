@@ -1,29 +1,31 @@
 import customtkinter as ctk
 from ruldani_visual_programming.utils import image
+from ruldani_visual_programming.utils import color_manager as cm
 
-image_ctk: image = image()
+class button(ctk.CTkButton):
+    def __init__(self, master, title: str = None, image: str = None, size: list[str] = [15,15], colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.SECONDARY_COLOR ):
+        super().__init__(master=master, fg_color=colour, hover_color=hover_colour, height=size[0], width=size[1])
 
-class button():
-    def __init__(self, variant: str, color: str):
-        pass
-    
-    def button_with_image(self, master: ctk.CTkFrame, size: list[int], icon_name: str = None, fg_color: str = "#EF9C66", hover_color: str = "#363636" ) -> ctk.CTkButton:
-        button_frame: ctk.CTkButton = None
-        height: int = size[0]
-        width: int = size[1]
-
-        # membuat button dengan icon image
-        if icon_name != None :
-            icon_image = image_ctk.get_image(icon_name, [width, height])
-            button_frame = ctk.CTkButton(master=master, corner_radius= 5, image= icon_image, width=width, text="", height=height + 10, fg_color=fg_color, hover_color=hover_color)
-
-        # membuat button tanpa image
+        if title != None and image != None:
+            self.with_text(title)
+        
+        elif title is not None :
+            self.with_text(title)
+        
         else :
-            button_frame = ctk.CTkButton(master=master, width=width + 15, height=height + 10, text="", fg_color=fg_color, hover_color=hover_color)
+            self.with_image(image_name=image)
 
-        return button_frame 
+    def with_text(self, title: str) -> None:
+        self.configure(text=title, width=50, height=50)
+        return None
     
-    def button_selected_with_image(self, master: ctk.CTkFrame):
+    def with_image(self, image_name: str ) -> None:
+        ukuran: int = 12
+        images = image(filename=image_name, dimension=[ukuran,ukuran])
+        self.configure(image=images, text="", width = ukuran, height=ukuran+15)
+        return None
+    
+    def set_active(self) -> None:
         return None
 
 class preference():
@@ -37,3 +39,9 @@ class preference():
     def name_error(self, master: ctk.CTkFrame, placeholder: str ) -> ctk.CTkEntry:
         hasil: ctk.CTkEntry = ctk.CTkEntry(master=master, width=140, height=20, corner_radius=5, placeholder_text=placeholder, border_color="#dd5b5b" )
         return hasil
+    
+class window(ctk.CTkFrame):
+    def __init__(self, master, width = 200, height = 200):
+        super().__init__(master, width, height)
+
+    
