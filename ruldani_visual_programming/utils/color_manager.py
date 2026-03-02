@@ -13,3 +13,6 @@ BACKGROUND_COLOR = "#363636"
 TEXT_COLOR = "#ffffff"
 DARK_COLOR = "#000000"
 SECONDARY_COLOR = "#646464"
+
+# font
+FONT = "Consolas"
