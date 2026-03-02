@@ -1,4 +1,4 @@
-/__pycache__
+*/__pycache__
 Catatan
 src/__pycache__/codesaver.cpython-313.pyc
 /src/__pycache__
@@ -190,3 +190,4 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+*.pyc

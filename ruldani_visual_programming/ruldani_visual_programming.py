@@ -5,7 +5,8 @@ import tkinter as tk
 import random
 import pyperclip
 from ruldani_visual_programming.utils import interpreter_code, nodeberzier, highlight, image
-from ruldani_visual_programming.utils.pages import *
+from ruldani_visual_programming.utils.pages.organism import ribbon, sidebar, content, settings, preferences
+from ruldani_visual_programming.utils.pages.atomic import button
 import tkinter as tk
 import ruldani_visual_programming.utils.color_manager as cm
 
@@ -101,110 +102,21 @@ class visual_programming(tk.Tk):
         # configure workspace grid configure
         self.grid_columnconfigure(0, weight= 0)
         self.grid_columnconfigure(1, weight= 1)
+        
+            
+        # make 2 panel : panel settings and main panel
         main_panel = self.main_panel()
+        setting = settings(self)
 
-        # make workspace and workspace widget
+        # make workspace and menubar on main panel
         workspace = self.workspace_panel(master=main_panel)
-        sidebars = sidebar(master=workspace)
-        contentz = content(master=workspace)
-        setting = self.setting_widget(workspace=self)
-        preference = self.preference_widget(workspace=workspace)
         menubar = ribbon(master=main_panel)
         
-        # make ribbon widget
-        # ribbon = self.ribbon_widget(menubar=menubar)
-
-        # make content setting
-        setting_sidebar = self.setting_sidebar_widget(master=setting)
+        # workspace panel
+        sidebars = sidebar(master=workspace)
+        contentz = content(master=workspace)
+        preferencez = preferences(master=workspace)
         
-        # make content preference
-        preferences_menu = self.preference_menu(master=preference)
-
-        # make content of code
-        # vsual = self.switch_content_widget(content)
-
-        # make content of sidebar
-        # content_sidebar =  self.sidebar_content(sidebar)
-
-    def setting_sidebar_widget(self, master: ctk.CTkFrame):
-
-        img: list[str] = ["thumbnail_bar.png","cpm1.png", "cpm2.png", "cpm3.png"]
-
-        for i, image in enumerate(img):
-            atomic = button(master=master, icon=image)
-            if i == 0 :
-                atomic.grid(row=i, column=0, pady= (3, 5), padx=(5, 5), sticky="n")
-
-            else :
-                atomic.grid(row=i, column=0, pady= (5, 5), padx=(5, 5), sticky="n")
-
-        master.grid_rowconfigure(len(img), weight=1) 
-
-        tes = button(master=master, icon="settings.png")
-        tes.grid(row=len(img) + 1, column=0, pady = 5, padx = 0, sticky="ns" )
-        return None
-
-    # Create sidebar frame
-    def setting_widget(self, workspace: ctk.CTkFrame) -> ctk.CTkFrame:
-        setting = ctk.CTkFrame(workspace, width=40, corner_radius=0, fg_color=BACKGROUND_COLOR)
-        setting.grid(row=0, column=0, sticky="ns")
-
-        setting.grid_propagate(False)
-        setting.grid_columnconfigure(3, weight=1)
-        return setting
-
-    def sidebar_widget(self, workspace: ctk.CTkFrame) -> ctk.CTkFrame:
-        # Create sidebar frame
-        sidebar = ctk.CTkFrame(workspace, width=200, corner_radius=0, fg_color=BACKGROUND_COLOR)
-        sidebar.grid(row=0, column=0, sticky="nsw")
-
-        # 1. Kunci lebar sidebar agar tidak berubah sesuai isi
-        sidebar.grid_propagate(False)
-        sidebar.grid_columnconfigure(0, weight=1)
-
-        return sidebar
-
-    def preference_menu(self, master) -> ctk.CTkEntry:
-        tes = preference_text(master=master, text="nama node")
-        tes.grid(row =1, column=0, sticky = "ew", padx = 20, pady=[20,0])
-        result = preference(master=master)
-        result.grid(row=2, column=0, padx=20, pady=10, sticky ="w")
-        tes = preference_error(master=master, text="yahh error !")
-        tes.grid(row =3, column=0, sticky = "ew", padx = 20)
-
-        tes = preference_text(master=master, text="dropdown node")
-        tes.grid(row =4, column=0, sticky = "ew", padx = 20, pady=[10,0])
-        pilihan: list[str] = ["yus", "pos", "los"]
-        ops = preference_dropdown(master=master, values=pilihan)
-        ops.grid(row =5, column=0, sticky = "ew", padx = 20, pady = 10)
-
-        master.grid_rowconfigure(6, weight=1)
-
-        tes = button_ribbon(master=master, text="delete")
-        tes.grid(row =7, column=0, sticky = "ew", padx = 20, pady=[0,10])
-
-        return result
-
-    def preference_widget(self, workspace: ctk.CTkFrame) -> ctk.CTkFrame:
-        preference_frame = ctk.CTkFrame(workspace, width=200, corner_radius=0, fg_color=BACKGROUND_COLOR)
-        preference_frame.grid(row=0, column=2, sticky="ns")
-
-        preference_frame.grid_propagate(False)
-        preference_frame.grid_columnconfigure(0, weight=1)
-
-        # menambahkan label
-        preference_label = ctk.CTkLabel(
-            preference_frame, 
-            text="Preference", 
-            font=(FONT, 16, "bold"), 
-            text_color=TEXT_COLOR,
-            anchor="center" 
-        )
-
-        preference_label.grid(row=0, column=0, padx=20, pady=10, sticky="ew")  # 4. Label mengisi lebar kolom
-
-        return preference_frame
-    
 
     # make workspace panel
     def workspace_panel(self, master):
@@ -224,13 +136,6 @@ class visual_programming(tk.Tk):
         main.grid_columnconfigure(1, weight=1)
         main.grid_rowconfigure(1, weight=1)
         return main
-    
-    # def min fiture for content
-    def code_panel(self, master) -> None:
-        return None
-        
-    def sidebar_content(self, master) -> None:
-        return None
     
 if __name__ == "__main__":
     app = visual_programming()

@@ -1,5 +1,6 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages import button_ribbon, preference_dropdown, preference_error, preference_text, button, sidebar_class, button_visual, button_code
+from ruldani_visual_programming.utils.pages.atomic import button_ribbon, preference_dropdown, preference_error, preference_text, button, sidebar_class, preference
+from ruldani_visual_programming.utils.pages.molecule import head_contents
 import ruldani_visual_programming.utils.color_manager as cm
 
 class ribbon(ctk.CTkFrame):
@@ -30,7 +31,7 @@ class ribbon(ctk.CTkFrame):
 
 class sidebar(ctk.CTkFrame):
     def __init__(self, master):
-        super().__init__(master=master, width=200, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
+        super().__init__(master=master, width=170, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
         self.make_widget()
         self.grid_configure()
 
@@ -84,54 +85,67 @@ class content(ctk.CTkFrame):
         pass
 
     def make_widget(self) -> None:
-        head = ctk.CTkFrame(master=self, height=40, width=100, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
-        head.grid(row=0, column =0, sticky="nsew")
-        head.grid_propagate(False)
+        head = head_contents(master=self)
 
-        body = ctk.CTkFrame(master=self, height=30, width=100, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
+        body = ctk.CTkFrame(master=self, height=30, width=100, corner_radius=0, fg_color=cm.DARK_COLOR)
         body.grid(row=1, column =0, sticky="nsew")
         
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=1)
-        
-        code_visual = button_visual(master=head)
-        code_visual.grid(column = 2, row = 0, sticky = "ne", pady=4, padx=5)
-
-        code_code = button_code(master=head)
-        code_code.grid(column = 1, row = 0, sticky = "ne", pady =4, padx = 5)
-
-        head.columnconfigure(1, weight=1)
         return None
 
     def configure_panel(self) -> None:
         self.grid(row=0, column=1, sticky="nsew")
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
 
-class setting(ctk.CTkFrame):
-    def __init__(self):
-        pass
+class settings(ctk.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master = master, width=40, fg_color = cm.BACKGROUND_COLOR, corner_radius=0)
+        self.configure_panel()
+        self.make_widget()
 
-class preference(ctk.CTkFrame):
+    def make_widget(self) -> None:
+        img: list[str] = ["thumbnail_bar.png","cpm1.png", "cpm2.png", "cpm3.png"]
+
+        for i, image in enumerate(img):
+            atomic = button(master=self, icon=image)
+            if i == 0 :
+                atomic.grid(row=i, column=0, pady= (3, 5), padx=(5, 5), sticky="n")
+
+            else :
+                atomic.grid(row=i, column=0, pady= (5, 5), padx=(5, 5), sticky="n")
+
+        self.grid_rowconfigure(len(img), weight=1) 
+
+        tes = button(master=self, icon="settings.png")
+        tes.grid(row=len(img) + 1, column=0, pady = 5, padx = 0, sticky="ns" )
+        
+        return None
+
+    def configure_panel(self) -> None:
+        self.grid(row=0, column=0, sticky="ns")
+        self.grid_propagate(False)
+        self.grid_columnconfigure(3, weight=1)
+        return None
+
+class preferences(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master, width=200, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
-    
+        self.make_widget()
+        self.configure_panel()
+
     def make_widget(self):
-        tes = preference_text(master=master, text="nama node")
+        tes = preference_text(master=self, text="nama node")
         tes.grid(row =1, column=0, sticky = "ew", padx = 20, pady=[20,0])
-        result = preference(master=master)
+        result = preference(master=self)
         result.grid(row=2, column=0, padx=20, pady=10, sticky ="w")
-        tes = preference_error(master=master, text="yahh error !")
+        tes = preference_error(master=self, text="yahh error !")
         tes.grid(row =3, column=0, sticky = "ew", padx = 20)
 
-        tes = preference_text(master=master, text="dropdown node")
+        tes = preference_text(master=self, text="dropdown node")
         tes.grid(row =4, column=0, sticky = "ew", padx = 20, pady=[10,0])
         pilihan: list[str] = ["yus", "pos", "los"]
-        ops = preference_dropdown(master=master, values=pilihan)
+        ops = preference_dropdown(master=self, values=pilihan)
         ops.grid(row =5, column=0, sticky = "ew", padx = 20, pady = 10)
-
-        master.grid_rowconfigure(6, weight=1)
-
-        tes = button_ribbon(master=master, text="delete")
-        tes.grid(row =7, column=0, sticky = "ew", padx = 20, pady=[0,10])
 
 
     def configure_panel(self):
