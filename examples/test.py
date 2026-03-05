@@ -2,4 +2,3 @@ from ruldani_visual_programming.ruldani_visual_programming import visual_program
 
 if __name__ == "__main__":
     app = visual_programming()
-    app.mainloop()

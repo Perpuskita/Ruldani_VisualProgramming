@@ -1,10 +1,7 @@
-if __name__ != "__main__":
-    import ruldani_visual_programming.utils.color_manager as cm
-    from ruldani_visual_programming.utils.lexer import lexical_analysis as lexer
-    from ruldani_visual_programming.utils.tokenizer import tokenizer
 
-else:
-    import color_manager as cm
+import ruldani_visual_programming.utils.color_manager as cm
+from ruldani_visual_programming.utils.models.compiler import lexical_analysis as lexer
+from ruldani_visual_programming.utils.models.compiler.tokenizer import tokenizer
 
 ORANGE_PALLETE = cm.ORANGE_PALLETE
 YELLOW_PALLETE = cm.YELLOW_PALLETE

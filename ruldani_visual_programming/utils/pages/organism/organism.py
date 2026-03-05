@@ -1,37 +1,13 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages.atomic import button_ribbon, preference_dropdown, preference_error, preference_text, button, sidebar_class, preference
-from ruldani_visual_programming.utils.pages.molecule import head_contents
+from ruldani_visual_programming.utils.pages.atomic import button_ribbon, preference_dropdown, preference_error, preference_text, button, sidebar_class, preference, button_sidebar
+from ruldani_visual_programming.utils.pages.molecule import head_contents, visual_content, code_content, visual_programming_frame
 import ruldani_visual_programming.utils.color_manager as cm
 
-class ribbon(ctk.CTkFrame):
-    def __init__(self, master):
-        super().__init__(master=master, width=1080, height=30, fg_color=cm.BACKGROUND_COLOR )
-        self.initial_state()
-        self.grid_configure()
-
-    def initial_state(self) -> None:
-        text_title: list = ["save", "load", "tools", "view"]
-
-        for i, title in enumerate(text_title):
-            padx: int = 5
-            if i == 0 :
-                padx = 4
-                
-            btn_home = button_ribbon(master=self, text=title)
-            btn_home.grid(row=0, column=i, pady=5, padx=(padx, 2), sticky="w")
-
-        self.grid_columnconfigure(len(text_title), weight=1) 
-
-        tes = button(master=self, icon="help.png")
-        tes.grid(column=len(text_title) + 1, row=0, pady = 0, padx = 0, sticky="ns" )
-    
-    def grid_configure(self) -> None:
-        self.grid(row=0, column=1, sticky="ew", padx=0, pady=0)
-        self.grid_propagate(False)
-
 class sidebar(ctk.CTkFrame):
-    def __init__(self, master):
+    def __init__(self, master, button: list, subbutton: list):
         super().__init__(master=master, width=170, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
+        self.button = button
+        self.subbutton = subbutton
         self.make_widget()
         self.grid_configure()
 
@@ -50,8 +26,8 @@ class sidebar(ctk.CTkFrame):
         sidebar_label.grid(row=0, column=0, padx=20, pady=(10, 20), sticky="ew")  # 4. Label mengisi lebar kolom
         
         # make content sidebar
-        title_contents = ["neural network", "convolutional NN"]
-        icon_content_1 = ["undo.png", "undo.png", "undo.png", "undo.png", "undo.png", "undo.png"]
+        title_contents = self.button
+        icon_content = self.subbutton
 
         for i, title in enumerate(title_contents) :
             
@@ -63,15 +39,20 @@ class sidebar(ctk.CTkFrame):
 
             isi_sidebar.grid_propagate(True)
 
-            for j, icon in enumerate(icon_content_1) :
+            for j, icon in enumerate(icon_content[i]) :
 
                 row : int = int(j/4)
                 column : int = j % 4
 
-                tes = button(master=isi_sidebar, icon=icon)
+                tes = button_sidebar(master=isi_sidebar, icon=icon, button=title, subbutton=icon) #button, #sub button
                 tes.grid(row=row, column=column, padx=0, pady=5, sticky="w")
 
+    def binding_subbutton(self, sub_button: ctk.CTkButton):
+        return None
     
+    def binding_button(self):
+        return None
+
     def grid_configure(self) -> None:
         self.grid(row=0, column=0, sticky="nsw")
         self.grid_propagate(False)
@@ -82,15 +63,33 @@ class content(ctk.CTkFrame):
         super().__init__(master=master, corner_radius=0, fg_color=cm.SECONDARY_COLOR)
         self.make_widget()
         self.configure_panel()
-        pass
+        self.visual_mode = False
 
     def make_widget(self) -> None:
         head = head_contents(master=self)
-
         body = ctk.CTkFrame(master=self, height=30, width=100, corner_radius=0, fg_color=cm.DARK_COLOR)
         body.grid(row=1, column =0, sticky="nsew")
+
+        body.grid_rowconfigure(0, weight=1)
+        body.grid_columnconfigure(0, weight=1)
         
+        self.visual_content = code_content(master=body, corner_radius=0)
+        self.code_content = visual_content(master=body, corner_radius=0, fg_color=cm.DARK_COLOR)
+
+        test = visual_programming_frame(master=self.visual_content)
+
+        self.switch_content(status="visual")
+
         return None
+
+    def switch_content(self, status: str):
+        if status == "visual" :
+            self.visual_content.grid_configure(row=0, column=0, padx=0, pady=0, sticky="nsew")
+            self.code_content.grid_remove()
+
+        if status == "code" :
+            self.code_content.grid_configure(row=0, column=0, padx=0, pady=0, sticky="nsew")
+            self.visual_content.grid_remove()
 
     def configure_panel(self) -> None:
         self.grid(row=0, column=1, sticky="nsew")

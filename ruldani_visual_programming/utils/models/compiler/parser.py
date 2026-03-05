@@ -1,5 +1,5 @@
-from tokenizer import token
-import error
+from ruldani_visual_programming.utils.models.compiler.tokenizer import token
+import ruldani_visual_programming.utils.error as error
 
 
 # Nanti kuubah jadi immutable maps
@@ -89,7 +89,7 @@ class parser:
 # testing
 
 if __name__ == "__main__":
-    from tokenizer import tokenizer
+    from ruldani_visual_programming.utils.models.compiler.tokenizer import tokenizer
     
     daest = """class ast:
     def __init__(name):

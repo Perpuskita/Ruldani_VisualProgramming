@@ -1,5 +1,4 @@
-class Interpreter():
-
+class interpreter():
     def __init__(self, name, link, header, input_type, output_type ):
         self.name = name
         self.link = link

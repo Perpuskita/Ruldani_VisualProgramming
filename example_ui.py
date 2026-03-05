@@ -1,10 +1,10 @@
-from ruldani_visual_programming.utils.pages import button, logo
+from ruldani_visual_programming.utils.pages.atomic import button, logo
 import tkinter as tk
 import customtkinter as ctk
 
 if __name__ == "__main__":
     App:tk.Tk = tk.Tk()
-    App.geometry("720x720")
+    App.geometry("300x200")
     App.grid_rowconfigure(0,weight=1)
     App.grid_columnconfigure(0,weight=1)
 

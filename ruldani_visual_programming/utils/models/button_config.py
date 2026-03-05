@@ -1,7 +1,8 @@
 from PIL import Image
 import os
 import customtkinter as ctk
-from ruldani_visual_programming.utils.code_server import interpreter_code
+from ruldani_visual_programming.utils.models.code_database import interpreter_code
+from ruldani_visual_programming.utils import image
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,20 +14,16 @@ class Button:
     def __init__(self, button_name, icon_button, sub_buttons=None):
         self.button_name = button_name
         self.icon_button = self._create_image(icon_button)
-        self.sub_buttons = sub_buttons if sub_buttons else []
+        self.sub_buttons = sub_buttons
         self.expand_status = False  # Initialize expand status
         self.subbutton_frame = None  # To hold the frame for sub-buttons
         self.main_button = None
-
-    def get_icon_path(self, filename):
-        return os.path.join(base_dir, "icons", filename)
     
     def _create_image(self, icon_button):
-        icon_path = get_icon_path(icon_button)
-        return ctk.CTkImage(Image.open(icon_path), size=(16, 16))
+        return image(icon_button, [16,16])
 
-    def toggle_expand(self):
-        self.expand_status = not self.expand_status
+    def toggle_expand_on(self):
+        self.expand_status = True
     
     def toggle_expand_off(self):
         self.expand_status = False
@@ -35,8 +32,7 @@ class Button:
 class SubButton:
     def __init__(self, sub_button_name, sub_button_icon, hover_color, input = [], output = []):
         self.sub_button_name = sub_button_name
-        self.icon_path = get_icon_path(sub_button_icon)
-        self.sub_button_icon = self._create_image(height=15, width=15)
+        self.sub_button_icon = image(sub_button_icon, dimension=[16, 16])
         self.hover_color = hover_color
         self.interpreter = self.node_container(sub_button_name)
         self.input = self.input_node()
