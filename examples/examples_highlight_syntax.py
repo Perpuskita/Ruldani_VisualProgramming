@@ -1,4 +1,4 @@
-from ruldani_visual_programming.utils import highlight
+from ruldani_visual_programming.utils.models import highlight
 
 TEXT_COLOR = "#ffffff"
 DARK_COLOR = "#000000"

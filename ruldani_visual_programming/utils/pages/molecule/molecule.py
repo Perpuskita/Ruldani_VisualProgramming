@@ -4,7 +4,7 @@ import ruldani_visual_programming.utils.color_manager as cm
 
 class head_contents(ctk.CTkFrame):
     def __init__(self, master):
-        super().__init__(master=master, height= 36, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
+        super().__init__(master=master, height= 38, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
         self.make_widget()
         self.configure_panel()
 
