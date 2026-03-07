@@ -45,43 +45,23 @@ class button_ribbon(ctk.CTkButton):
 class button_visual(ctk.CTkButton):
     def __init__(self, master ):
         super().__init__(master, width=140, height=26, text="visual programming", fg_color=cm.ORANGE_PALLETE, text_color=cm.BACKGROUND_COLOR)
-        self.toggle_on()
 
     def toggle_off(self):
-        self.configure(text_color = cm.TEXT_COLOR, fg_color = cm.SECONDARY_COLOR,  hover_color=cm.BACKGROUND_COLOR)
+        self.configure(text_color = cm.TEXT_COLOR, fg_color = cm.SECONDARY_COLOR,  hover_color=cm.ORANGE_PALLETE)
 
     def toggle_on(self):
         self.configure(text_color = cm.BACKGROUND_COLOR, fg_color = cm.ORANGE_PALLETE,  hover_color=cm.SECONDARY_COLOR)
 
+
 class button_code(ctk.CTkButton):
     def __init__(self, master ):
         super().__init__(master, width=120, height=26, text="code", fg_color=cm.BLUE_PALLETE, text_color= cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR)
-        self.toggle_off()
 
     def toggle_off(self):
         self.configure(text_color = cm.TEXT_COLOR, fg_color = cm.SECONDARY_COLOR, hover_color = cm.BLUE_PALLETE)
 
     def toggle_on(self):
-        self.configure(text_color = cm.TEXT_COLOR, fg_color = cm.BLUE_PALLETE)
-
-
-class preference(ctk.CTkEntry):
-    def __init__(self, master, text: str= "none" ):
-        super().__init__(master=master, width=WIDTH, height=HEIGHT_ENTRY, corner_radius=5, placeholder_text="defaut name", border_color=cm.SECONDARY_COLOR)
-    
-class preference_text(ctk.CTkLabel):
-    def __init__(self, master, text:str):
-        super().__init__(master, width = 50, height = HEIGHT_TEXT, text=text, anchor="w", fg_color=cm.BACKGROUND_COLOR)
-
-class preference_error(ctk.CTkLabel):
-    def __init__(self, master, text:str):
-        super().__init__(master, width = 50, height = HEIGHT_TEXT, text=text, anchor="e", fg_color=cm.BACKGROUND_COLOR, text_color=cm.RED_PALLETE)
-
-class preference_dropdown(ctk.CTkOptionMenu):
-    def __init__(self, master, values: list[str]):
-        super().__init__(master, width=WIDTH, height=HEIGHT_ENTRY, values=values, text_color=cm.TEXT_COLOR)
-        self.set(value=values[0])
-        self.configure(dropdown_text_color = cm.TEXT_COLOR, button_color =cm.SECONDARY_COLOR, fg_color = cm.SECONDARY_COLOR, button_hover_color = cm.BLUE_PALLETE)
+        self.configure(text_color = cm.BACKGROUND_COLOR, fg_color = cm.BLUE_PALLETE)
 
 class window(ctk.CTkFrame):
     def __init__(self, master, width = 200, height = 200):
@@ -89,9 +69,18 @@ class window(ctk.CTkFrame):
 
 class sidebar_class(ctk.CTkButton):
     def __init__(self, master, text: str ):
-        dropdown: ctk.CTkImage = image("arrow_down.png", [16, 16])
-        super().__init__(master, width=120, height=10, image=dropdown, text=text, fg_color=cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR, font=("Concolas", 12, "normal"), anchor="w" )
+        self.dropdown: ctk.CTkImage = image("arrow_down.png", [16, 16])
+        self.hidden: ctk.CTkImage = image("arrow_right.png", [16, 16])
         
+        super().__init__(master, width=120, height=10, image=self.dropdown, text=text, fg_color=cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR, font=("Concolas", 12, "normal"), anchor="w" )
+    
+    def hide(self):
+        self.configure(image = self.hidden)
+
+    def show(self):
+        self.configure(image = self.dropdown)
+
+
 class flowchart(ctk.CTkButton):
     def __init__(self, master, color: str):
         super().__init__(master=master, fg_color="transparent", width=40, height=10, text="namae")

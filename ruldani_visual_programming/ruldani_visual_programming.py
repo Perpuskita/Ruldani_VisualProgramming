@@ -92,6 +92,9 @@ class visual_programming():
         view.set_presenter(presenter=presenter)
         view.run()
         
+        view.update()
+        
+
         # run pages
         view.mainloop()
 

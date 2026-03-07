@@ -1,4 +1,6 @@
 from ruldani_visual_programming.utils.pages.organism import ribbon, sidebar, content, settings, preferences
+from ruldani_visual_programming.utils.pages.atomic import button_sidebar
+
 import customtkinter as ctk
 import tkinter as tk
 from ruldani_visual_programming.utils.presenters import presenters
@@ -46,10 +48,26 @@ class pages(tk.Tk):
         menubar = ribbon(master=main_panel)
         
         # workspace panel
-        sidebars = sidebar(master=workspace, button= button, subbutton= subbutton)
-        contentz = content(master=workspace)
-        preferencez = preferences(master=workspace)
-        
+        self.sidebars: sidebar = sidebar(master=workspace)
+        sub_btn: list  = self.sidebars.make_widget(button=button, sub_button=subbutton)
+
+        self.binding_sidebar(sub_button=sub_btn)
+
+        self.contents = content(master=workspace)
+        self.preferences = preferences(master=workspace)
+    
+    def binding_sidebar(self, sub_button: list[button_sidebar]):
+        for button in sub_button:
+            button.bind("<Button-1>", lambda event : self.make_visual_programming())
+
+        return None
+
+    def make_visual_programming(self):
+        self.contents.make_visual_programming_frame()
+        self.presenter.make_visual_programming()
+
+    def clear_preferences(self):
+        return None
 
     # make workspace panel
     def workspace_panel(self, master):

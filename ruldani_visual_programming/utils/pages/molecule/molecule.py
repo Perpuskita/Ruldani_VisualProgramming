@@ -7,14 +7,35 @@ class head_contents(ctk.CTkFrame):
         super().__init__(master=master, height= 38, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
         self.make_widget()
         self.configure_panel()
+        self.status : bool = False
 
     def make_widget(self)-> None:
         code_visual = button_visual(master=self)
         code_visual.grid(column = 2, row = 0, sticky = "ne", pady=4, padx=5)
+        self.visual_button = code_visual
 
         code_code = button_code(master=self)
         code_code.grid(column = 1, row = 0, sticky = "ne", pady =4, padx = 5)
+        self.code_button = code_code
 
+        return None
+    
+    def switch_status(self, status):
+        # jika status && status => do nothing
+        # jika status != status => eksekusi
+        # eksekusi
+        # jika status => switch code panel
+        # jika !status => switch visual panel
+
+        if not (status and self.status) :
+            if status is True :
+                self.visual_button.toggle_on()
+                self.code_button.toggle_off()
+                self.status = True
+            else :
+                self.code_button.toggle_on()
+                self.visual_button.toggle_off()
+                self.status = False
         return None
 
     def configure_panel(self):

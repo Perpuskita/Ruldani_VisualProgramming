@@ -15,6 +15,16 @@ class presenters:
     def initial_subbutton(self) -> list:
         sub_buttons = [["undo.png", "cpm2.png", "cpm1.png", "cpm3.png" ], [ "cpm2.png", "undo.png", "undo.png"]]
         return sub_buttons
+    
+    def make_visual_programming(self):
+        print("membuat node baru")
+        return None
+
+    def assign(self, button, subbutton):
+        return None
+    
+    def get_higlight(self, text):
+        return None
 
     def get_frame_icon(self):
         return None
