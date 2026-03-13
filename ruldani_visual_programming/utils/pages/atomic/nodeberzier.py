@@ -12,8 +12,8 @@ output = cm.CYAN_PALLETE
 class nodeberzier:
 
     # inisialisasi node berzier
-    def __init__(self, canvas, node_type, image_id, coor, nodeberzier_container, active_line):
-        self.canvas = canvas
+    def __init__(self, master, node_type, image_id, coor, nodeberzier_container, active_line):
+        self.canvas = master
         self.radius = 5
         self.type = node_type  # Store node type
         self.image_id = image_id  # Store the image_id reference
@@ -24,15 +24,19 @@ class nodeberzier:
         self.next = None
         
         # Get the current position of the image from canvas
-        # Bind events for the node
-        self.image_id.bind('<Button-1>', self.start_connection)
-        self.image_id.bind('<B1-Motion>', self.on_drag)
-        self.image_id.bind('<ButtonRelease-1>', self.on_release)
+        
         self.connection_line = None
         self.node_next = None
         self.nodeberzier_container = nodeberzier_container
         self.active_line = active_line
+        self.binding_node()
     
+    def binding_node(self):
+        
+        self.image_id.bind('<Button-1>', self.start_connection)
+        self.image_id.bind('<B1-Motion>', self.on_drag)
+        self.image_id.bind('<ButtonRelease-1>', self.on_release)
+
     def line_colour(self):
         if self.type == "path":
             return path
@@ -40,7 +44,6 @@ class nodeberzier:
         return default
 
     def start_connection(self, event): 
-  
         self.canvas.delete(self.line_id)
         if self.next != None :
             self.next.line_id = None

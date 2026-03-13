@@ -16,7 +16,7 @@ FUNC = [
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is"
+    "class", "import", "from", "as", "in", "#", "is", "self"
 ]
 
 OPERATOR = [
@@ -63,4 +63,4 @@ class lexical_analysis ():
 
 if __name__ == "__main__":
     lexer = lexical_analysis()
-    print(lexer.type_lexer("oio"))
+    print(lexer.type_lexer("def"))

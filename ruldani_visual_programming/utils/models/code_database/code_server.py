@@ -28,8 +28,8 @@ class interpreter_code:
             return Preferences_Tepi("deteksi tepi")
         elif self.name == "ekstraksi_fitur":
             return Preferences_Efitur("ekstraksi_fitur")
-        # else :
-        #     print(f"inisialisasi node gagal")
+        else :
+            return Preferences_Biner("analisa biner")
 
 ###### Node interprenter for folder import #######
 

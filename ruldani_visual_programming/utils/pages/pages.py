@@ -1,5 +1,5 @@
 from ruldani_visual_programming.utils.pages.organism import ribbon, sidebar, content, settings, preferences
-from ruldani_visual_programming.utils.pages.atomic import button_sidebar
+from ruldani_visual_programming.utils.pages.atomic import button_sidebar, nodeberzier
 
 import customtkinter as ctk
 import tkinter as tk
@@ -10,6 +10,8 @@ class pages(tk.Tk):
     def __init__(self):
         super().__init__()
         self.presenter: presenters = None
+        self.activate_line = None
+        self.nodeberzier_container = None
 
     def run(self):
         # get presenter button, sub button via initial state
@@ -59,11 +61,13 @@ class pages(tk.Tk):
     def binding_sidebar(self, sub_button: list[button_sidebar]):
         for button in sub_button:
             button.bind("<Button-1>", lambda event : self.make_visual_programming())
-
+        return None
+    
+    def make_line(self):
         return None
 
     def make_visual_programming(self):
-        self.contents.make_visual_programming_frame()
+        self.contents.make_visual_programming()
         self.presenter.make_visual_programming()
 
     def clear_preferences(self):

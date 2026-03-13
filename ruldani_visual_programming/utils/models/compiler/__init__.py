@@ -1,1 +1,2 @@
-from ruldani_visual_programming.utils.models.compiler.lexer import lexical_analysis
+from ruldani_visual_programming.utils.models.compiler.lexical_analysis import lexical_analysis
+from ruldani_visual_programming.utils.models.compiler.tokenizer import tokenizer

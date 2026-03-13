@@ -7,17 +7,13 @@ class presenters:
         self.model: models = model
 
     def initial_button(self) -> list:
-        buttons: list = [
-            "neural network", "convolutional NN"
-        ]
-        return buttons
+        return self.model.get_button()
     
     def initial_subbutton(self) -> list:
-        sub_buttons = [["undo.png", "cpm2.png", "cpm1.png", "cpm3.png" ], [ "cpm2.png", "undo.png", "undo.png"]]
-        return sub_buttons
+        return self.model.get_sub_button()
     
     def make_visual_programming(self):
-        print("membuat node baru")
+        print("presenter : membuat node baru")
         return None
 
     def assign(self, button, subbutton):
