@@ -3,9 +3,9 @@ from ruldani_visual_programming.utils.pages.molecule import head_contents, visua
 import ruldani_visual_programming.utils.color_manager as cm
 
 
-class content(ctk.CTkFrame):
+class content(ctk.CTkCanvas):
     def __init__(self, master):
-        super().__init__(master=master, corner_radius=0, fg_color=cm.SECONDARY_COLOR)
+        super().__init__(master=master)
         self.make_widget()
         self.configure_panel()
         self.visual_mode = False
@@ -21,8 +21,8 @@ class content(ctk.CTkFrame):
         body.grid_rowconfigure(0, weight=1)
         body.grid_columnconfigure(0, weight=1)
         
-        self.visual_content = code_content(master=body, corner_radius=0)
-        self.code_content = visual_content(master=body, corner_radius=0, fg_color=cm.DARK_COLOR)
+        self.code_content = code_content(master=body, corner_radius=0)
+        self.visual_content = visual_content(master=body)
 
         self.switch_content(status="visual")
 
@@ -33,7 +33,7 @@ class content(ctk.CTkFrame):
         self.head.visual_button.bind("<Button-1>", lambda event : self.switch_content(status="visual"))
         return None
 
-    def make_visual_programming_frame(self):
+    def make_visual_programming(self):
         visual_programming_frame(master=self.visual_content, text="mainframe")
         return None
     

@@ -3,11 +3,12 @@ from PIL import Image
 import customtkinter as ctk
 import random
 import pyperclip
-from ruldani_visual_programming.utils import interpreter_code, nodeberzier, highlight
+from ruldani_visual_programming.utils import interpreter_code, highlight
 import tkinter as tk
 import ruldani_visual_programming.utils.color_manager as cm
 
 from ruldani_visual_programming.utils import Button, SubButton
+from ruldani_visual_programming.utils.pages.atomic import nodeberzier
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")

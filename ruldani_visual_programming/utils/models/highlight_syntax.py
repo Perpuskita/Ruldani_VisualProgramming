@@ -45,10 +45,9 @@ class highlight ():
         self.highlight_token()
     
     def lexer ():
-
         return
 
-    def highlight_token( self ):
+    def highlight_token(self ):
         profil = self.token.token
 
         # configurasi sementara sebelum melakukan parser

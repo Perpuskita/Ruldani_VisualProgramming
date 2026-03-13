@@ -31,50 +31,7 @@ LOGO_IMAGE = "sub_home.png"
 
 # Define Font
 FONT = "Consolas"
-
-# Define buttons and sub-buttons
-buttons = [
-    Button("Input System", "home.png", [
-        # sub button folder
-        SubButton("folder",
-                    "folder.png",
-                    LIGHT_GREEN_PALLETE),
-        # sub button gdrive
-        SubButton("gdrive folder",
-                    "gdrive.png",
-                    LIGHT_GREEN_PALLETE)
-    ]),
-    Button("Konsep Pendahuluan", "cpm1.png", [
-        # sub button pembentukan citra
-        SubButton("pembentukan citra",
-                    "pembentukan citra.png",
-                    CYAN_PALLETE),
-    ]),
-    Button("Pengolahan\nCitra digital", "cpm2.png", [
-        # sub button analisa binner
-        SubButton("analisa biner",
-                    "analisa_citra_biner.png",
-                    YELLOW_PALLETE),
-        # sub button analisa abu
-        SubButton("analisa abu",
-                    "analisa_citra_abu.png",
-                    YELLOW_PALLETE),
-        # sub button transformasi fourier
-        SubButton("transformasi fourier",
-                    "transformasi_fourier.png",
-                    YELLOW_PALLETE)
-    ]),
-    Button("Klasifikasi dan        \n Pengenalan Object", "cpm3.png", [
-        # sub button deteksi tepi
-        SubButton("deteksi tepi",
-                    "deteksi_tepi.png",
-                    ORANGE_PALLETE),
-        # sub button ekstasi fitur
-        SubButton("ekstraksi_fitur",
-                    "ekstraksi_fitur.png",
-                    ORANGE_PALLETE)
-    ])
-]
+PATH = "/code_from_scratch.py"
 
 class visual_programming():
     
@@ -82,8 +39,9 @@ class visual_programming():
         # make view
         view = pages()
         
+        confg:str = self.read_file_to_string(PATH)
         # make model
-        model = models(buttons=buttons)
+        model = models(path_configuration=confg)
 
         # make presenter
         presenter = presenters(view=view, model=model)
@@ -98,6 +56,17 @@ class visual_programming():
         # run pages
         view.mainloop()
 
+    def read_file_to_string(self, file_path):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        try:
+            with open(f"{base_dir}{file_path}", 'r', encoding='utf-8') as file:
+                return file.read()
+        except FileNotFoundError:
+            print(f"Error: File '{file_path}' tidak ditemukan")
+            return None
+        except Exception as e:
+            print(f"Error membaca file: {e}")
+            return None
     
 if __name__ == "__main__":
     app = visual_programming()

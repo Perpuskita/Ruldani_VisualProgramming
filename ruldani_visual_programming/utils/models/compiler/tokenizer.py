@@ -17,7 +17,7 @@ FUNC = [
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is","pass"
+    "class", "import", "from", "as", "in", "#", "is","pass","self"
 ]
 
 OPERATOR = [
