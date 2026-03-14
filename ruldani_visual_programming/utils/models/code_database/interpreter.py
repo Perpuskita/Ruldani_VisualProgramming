@@ -1,16 +1,19 @@
 class interpreter():
-    def __init__(self, name, input_type, output_type, link = None ):
+    def __init__(self, name, link = None ):
         self.name = name
         self.link = link
         self.framework = []
         self.selected_framework: str = ""
         self.header: list = []
         self.selected_header: str = ""
-        self.input = input_type
-        self.output = output_type
+        self.input: list[str] = []
+        self.output: list[str] = []
         self.code_server: list[str] = []
 
     def set_code_server(self, loader: list[str]):
+        return None
+    
+    def set_input(self, type: str) -> None:
         return None
 
     def set_framework(self, framework: str)->None:

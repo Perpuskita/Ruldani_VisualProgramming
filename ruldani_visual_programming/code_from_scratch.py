@@ -7,6 +7,8 @@ class ImageIO:
     """
     Kelas untuk menangani Input dan Output gambar.
     """
+    def  __init__(self):
+        pass
 
     def load(self, path: str, flag: int = cv2.IMREAD_COLOR) -> np.ndarray:
         """Membaca gambar dari file."""
