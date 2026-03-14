@@ -26,7 +26,7 @@ class models():
             hasil: list[str] = []
             for sub in btn.sub_buttons :
                 hasil.append(sub.sub_button_icon)
-                print(sub.sub_button_name)
+                # print(sub.sub_button_name)
             
             res.append(hasil)
         return res

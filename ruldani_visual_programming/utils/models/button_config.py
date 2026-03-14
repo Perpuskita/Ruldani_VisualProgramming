@@ -1,7 +1,7 @@
 from PIL import Image
 import os
 import customtkinter as ctk
-from ruldani_visual_programming.utils.models.code_database import interpreter_code
+from ruldani_visual_programming.utils.models.code_database import interpreter_code, interpreter
 from ruldani_visual_programming.utils import image
 
 
@@ -11,18 +11,19 @@ class SubButton:
         self.sub_button_name = sub_button_name
         self.sub_button_icon = sub_button_icon
         self.hover_color = hover_color
-        self.interpreter = self.node_container(sub_button_name)
-        self.input = self.input_node()
-        self.output = self.output_node()
+        self.interpreter = None
+        self.input = None
+        self.output = None
 
     def create_image(self, icon: str, height = 15 , width = 15):
         return image(icon, dimension=[16, 16])
 
     # Fungsi untuk membuat baris node 
     # Menghasilkan container dari kelas interpreter
-    def node_container(self, name):
+    def set_interpreter(self, node: interpreter) -> None:
         # print(f"inisialisasi dari kelas interpreter {name}")
-        return interpreter_code(name)
+        self.interpreter = node
+        return None
 
     # input dari kelas interpreter code
     # mengahasilkan list dari input interpreter code
@@ -50,7 +51,7 @@ class Button:
     
     def set_sub_buttons(self, test: SubButton):
         self.sub_buttons.append(test)
-        print(test.sub_button_name)
+        # print(f"sub{test.sub_button_name}")
         return None
 
     def create_image(self, icon_button):
