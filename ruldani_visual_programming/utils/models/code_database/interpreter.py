@@ -45,4 +45,7 @@ class interpreter():
     def update_data(self, name, link):
         self.name = name
         self.link = link
+
+    def copy(self):
+        return None
     

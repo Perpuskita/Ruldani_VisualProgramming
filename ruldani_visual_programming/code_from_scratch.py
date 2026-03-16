@@ -1,189 +1,195 @@
-import cv2
+from PIL import Image
 import numpy as np
-from typing import List, Tuple, Optional, Union
+import os
 
 
 class ImageIO:
-    """
-    Kelas untuk menangani Input dan Output gambar.
-    """
-    def  __init__(self):
+    def __init__(self):
         pass
 
-    def load(self, path: str, flag: int = cv2.IMREAD_COLOR) -> np.ndarray:
-        """Membaca gambar dari file."""
-        img = cv2.imread(path, flag)
-        if img is None:
-            raise FileNotFoundError(f"Gambar tidak ditemukan di path: {path}")
-        return img
+    def load(self, path: str) -> np.ndarray:
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Image file not found: {path}")
 
-    def save(self, path: str, image: np.ndarray) -> bool:
-        """Menyimpan gambar ke file."""
-        success = cv2.imwrite(path, image)
-        if not success:
-            raise IOError("Gagal menyimpan gambar.")
-        return success
+        try:
+            with Image.open(path) as img:
+                img = img.convert("RGB")  # Ensure consistent format
+                return np.array(img)
+        except Exception as e:
+            raise Exception(f"Failed to load image: {e}")
 
-    def show(
-        self, title: str, image: np.ndarray, wait_time: int = 0
-    ) -> None:
-        """Menampilkan gambar di jendela popup."""
-        cv2.imshow(title, image)
-        cv2.waitKey(wait_time)
+    def save(self, path: str, image: np.ndarray, type_image: str = "PNG") -> Image.Image:
+        try:
+            # Ensure correct dtype and range
+            if image.dtype == np.float32 or image.dtype == np.float64:
+                image = (image * 255).astype(np.uint8)
+            elif image.dtype != np.uint8:
+                image = image.astype(np.uint8)
 
+            # Handle grayscale
+            if image.ndim == 2:
+                pil_image = Image.fromarray(image, mode='L')
+            elif image.ndim == 3 and image.shape[2] == 3:
+                pil_image = Image.fromarray(image, mode='RGB')
+            elif image.ndim == 3 and image.shape[2] == 4:
+                pil_image = Image.fromarray(image, mode='RGBA')
+            else:
+                raise ValueError("Unsupported image shape for saving.")
 
-class ImagePreprocessor:
-    """
-    Kelas untuk preprocessing dasar seperti resizing dan konversi warna.
-    """
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
 
-    def resize(
-        self,
-        image: np.ndarray,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        inter: int = cv2.INTER_AREA,
-    ) -> np.ndarray:
-        """Mengubah ukuran gambar dengan menjaga aspek rasio."""
-        dim = None
-        (h, w) = image.shape[:2]
+            # Save image
+            pil_image.save(path, format=type_image.upper())
+            return pil_image
 
-        if width is None and height is None:
-            return image
+        except Exception as e:
+            raise Exception(f"Failed to save image: {e}")
 
-        if width is None:
-            r = height / float(h)
-            dim = (int(w * r), height)
-        else:
-            r = width / float(w)
-            dim = (width, int(h * r))
+    def show(self, title: str, image: np.ndarray) -> None:
+        try:
+            if image.dtype == np.float32 or image.dtype == np.float64:
+                image = (image * 255).astype(np.uint8)
+            elif image.dtype != np.uint8:
+                image = image.astype(np.uint8)
 
-        return cv2.resize(image, dim, interpolation=inter)
+            if image.ndim == 2:
+                pil_image = Image.fromarray(image, mode='L')
+            elif image.ndim == 3 and image.shape[2] == 3:
+                pil_image = Image.fromarray(image, mode='RGB')
+            elif image.ndim == 3 and image.shape[2] == 4:
+                pil_image = Image.fromarray(image, mode='RGBA')
+            else:
+                raise ValueError("Unsupported image shape for display.")
 
-    def to_grayscale(self, image: np.ndarray) -> np.ndarray:
-        """Mengubah gambar berwarna menjadi hitam putih (Grayscale)."""
-        if len(image.shape) == 2:
-            return image
-        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            pil_image.title = title
+            pil_image.show()
 
-    def to_hsv(self, image: np.ndarray) -> np.ndarray:
-        """Mengubah gambar ke ruang warna HSV."""
-        return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        except Exception as e:
+            raise Exception(f"Failed to display image: {e}")
 
-    def blur(
-        self, image: np.ndarray, kernel_size: Tuple[int, int] = (5, 5)
-    ) -> np.ndarray:
-        """Menerapkan Gaussian Blur untuk mengurangi noise."""
-        return cv2.GaussianBlur(image, kernel_size, 0)
-
-    def normalize(self, image: np.ndarray) -> np.ndarray:
-        """Normalisasi pixel ke range 0-1 (float)."""
-        return image.astype("float") / 255.0
+import numpy as np
 
 
-class FeatureExtractor:
-    """
-    Kelas untuk mendeteksi fitur seperti tepi, kontur, dan garis.
-    """
+class ImageManip:
+    def __init__(self):
+        pass
 
-    def detect_edges(
-        self,
-        image: np.ndarray,
-        low_thresh: int = 30,
-        high_thresh: int = 150,
-    ) -> np.ndarray:
-        """Mendeteksi tepi menggunakan algoritma Canny."""
-        if len(image.shape) == 3:
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        else:
-            gray = image
-        return cv2.Canny(gray, low_thresh, high_thresh)
-
-    def find_contours(
-        self, image: np.ndarray
-    ) -> Tuple[List[np.ndarray], np.ndarray]:
-        """Menemukan kontur objek dalam gambar biner/edges."""
-        if len(image.shape) == 3:
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        else:
-            gray = image
-
-        _, thresh = cv2.threshold(
-            gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
-        )
-
-        contours, _ = cv2.findContours(
-            thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-        )
-        return contours, thresh
-
-    def draw_contours(
-        self,
-        original_image: np.ndarray,
-        contours: List[np.ndarray],
-        color: Tuple[int, int, int] = (0, 255, 0),
-        thickness: int = 2,
-    ) -> np.ndarray:
-        """Menggambar kontur di atas gambar asli."""
-        output = original_image.copy()
-        cv2.drawContours(output, contours, -1, color, thickness)
+    def _convolve_2d(self, image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+        """
+        Helper function to perform 2D convolution on a single channel (2D array).
+        Implemented manually using numpy padding and slicing to avoid scipy.
+        """
+        kh, kw = kernel.shape
+        pad_h, pad_w = kh // 2, kw // 2
+        
+        # Padding image using 'reflect' mode to handle borders
+        padded = np.pad(image, ((pad_h, pad_h), (pad_w, pad_w)), mode='reflect')
+        
+        h, w = image.shape
+        output = np.zeros((h, w), dtype=np.float64)
+        
+        # Perform convolution by sliding the kernel over the padded image
+        # Looping over kernel elements is faster than looping over pixels
+        for i in range(kh):
+            for j in range(kw):
+                output += kernel[i, j] * padded[i:i+h, j:j+w]
+                
         return output
 
-    def detect_circles(
-        self,
-        image: np.ndarray,
-        min_dist: int = 50,
-        param1: int = 50,
-        param2: int = 50,
-        min_radius: int = 0,
-        max_radius: int = 0,
-    ) -> Optional[np.ndarray]:
-        """Mendeteksi lingkaran menggunakan Hough Circle Transform."""
-        if len(image.shape) == 3:
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    def kernel_manip(self, image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+        """
+        Apply a custom convolution kernel to an image.
+
+        Args:
+            image (np.ndarray): Input image (H, W) or (H, W, C).
+            kernel (np.ndarray): Convolution kernel (2D array).
+
+        Returns:
+            np.ndarray: Convolved image.
+        """
+        if kernel.ndim != 2:
+            raise ValueError("Kernel must be a 2D array.")
+
+        if image.ndim == 2:
+            # Grayscale
+            return self._convolve_2d(image, kernel)
+        
+        elif image.ndim == 3:
+            # Color (H, W, C)
+            h, w, c = image.shape
+            output = np.zeros((h, w, c), dtype=np.float64)
+            for i in range(c):
+                output[:, :, i] = self._convolve_2d(image[:, :, i], kernel)
+            return output
+        
         else:
-            gray = image
+            raise ValueError("Image must be 2D or 3D.")
 
-        gray = cv2.medianBlur(gray, 5)
-        circles = cv2.HoughCircles(
-            gray,
-            cv2.HOUGH_GRADIENT,
-            1,
-            min_dist,
-            param1=param1,
-            param2=param2,
-            minRadius=min_radius,
-            maxRadius=max_radius,
-        )
-        return circles
+    def gaussian_blur(self, image: np.ndarray, sigma: float = 1.0, kernel_size: int = 0) -> np.ndarray:
+        """
+        Apply Gaussian blur to an image.
 
+        Args:
+            image (np.ndarray): Input image.
+            sigma (float): Standard deviation for Gaussian kernel.
+            kernel_size (int): Size of the kernel (odd number). If 0, computed from sigma.
 
-class ObjectAnalyzer:
-    """
-    Kelas untuk analisis objek sederhana seperti Bounding Box.
-    """
+        Returns:
+            np.ndarray: Blurred image.
+        """
+        if kernel_size == 0:
+            kernel_size = int(6 * sigma + 1)
+        
+        # Ensure kernel size is odd
+        if kernel_size % 2 == 0:
+            kernel_size += 1
+            
+        # Create 1D Gaussian kernel
+        ax = np.linspace(-(kernel_size // 2), kernel_size // 2, kernel_size)
+        xx, yy = np.meshgrid(ax, ax)
+        kernel = np.exp(-(xx**2 + yy**2) / (2 * sigma**2))
+        kernel /= np.sum(kernel)  # Normalize kernel
 
-    def get_bounding_boxes(
-        self, contours: List[np.ndarray]
-    ) -> List[Tuple[int, int, int, int]]:
-        """Mengambil koordinat kotak pembatas (x, y, w, h) dari kontur."""
-        boxes = []
-        for cnt in contours:
-            x, y, w, h = cv2.boundingRect(cnt)
-            # Filter objek terlalu kecil (noise)
-            if w > 10 and h > 10:
-                boxes.append((x, y, w, h))
-        return boxes
+        return self.kernel_manip(image, kernel)
 
-    def draw_boxes(
-        self,
-        image: np.ndarray,
-        boxes: List[Tuple[int, int, int, int]],
-        color: Tuple[int, int, int] = (255, 0, 0),
-        thickness: int = 2,
-    ) -> np.ndarray:
-        """Menggambar kotak pembatas pada gambar."""
-        output = image.copy()
-        for (x, y, w, h) in boxes:
-            cv2.rectangle(output, (x, y), (x + w, y + h), color, thickness)
-        return output
+    def gray_scale(self, image: np.ndarray) -> np.ndarray:
+        """
+        Convert an image to grayscale using luminance method.
+
+        Args:
+            image (np.ndarray): Input image (H, W, C).
+
+        Returns:
+            np.ndarray: Grayscale image (H, W).
+        """
+        if image.ndim == 2:
+            return image
+
+        if image.ndim != 3 or image.shape[2] not in [3, 4]:
+            raise ValueError("Image must have 3 (RGB) or 4 (RGBA) channels.")
+
+        # Drop alpha channel if present
+        if image.shape[2] == 4:
+            image = image[:, :, :3]
+
+        # Convert to float for calculation if needed
+        if image.dtype == np.uint8:
+            image = image.astype(np.float64) / 255.0
+
+        # Luminance formula
+        gray = 0.299 * image[:, :, 0] + 0.587 * image[:, :, 1] + 0.114 * image[:, :, 2]
+
+        # Convert back to uint8
+        return (gray * 255).astype(np.uint8)
+    
+
+class Neural_Network:
+    def __init__(self):
+        pass
+
+    def make_neuron(self, input_layer: np.ndarray) -> np.ndarray:
+        return None
+    
+    def activation_layer(self, input_layer: np.ndarray) -> np.ndarray:
+        return None

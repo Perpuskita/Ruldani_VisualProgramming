@@ -18,14 +18,21 @@ class pages(tk.Tk):
         button: list = self.presenter.initial_button()
         sub_button: list = self.presenter.initial_subbutton()
 
-        self.make_window([1440, 720], button=button, subbutton=sub_button)
+        # pisahkan logika pembuatan window dengan pembuatan sidebar button
+        self.make_window([1440, 720])
+
+        # membuat sidebar button
+        sub_btn: list  = self.sidebars.make_widget(button=button, sub_button=sub_button)
+        self.binding_sidebar(sub_button=sub_btn)
+
+
 
     # set presenter untuk melakukan komunikasi 2 arah ke presenter
     def set_presenter(self, presenter: presenters):
         self.presenter = presenter
         return None
 
-    def make_window(self, geometry:list[int], button: list, subbutton:list) -> None:
+    def make_window(self, geometry:list[int]) -> None:
 
         width = geometry[0]
         height = geometry[1]
@@ -51,10 +58,6 @@ class pages(tk.Tk):
         
         # workspace panel
         self.sidebars: sidebar = sidebar(master=workspace)
-        sub_btn: list  = self.sidebars.make_widget(button=button, sub_button=subbutton)
-
-        self.binding_sidebar(sub_button=sub_btn)
-
         self.contents = content(master=workspace)
         self.preferences = preferences(master=workspace)
     

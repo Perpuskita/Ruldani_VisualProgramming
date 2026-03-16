@@ -33,7 +33,7 @@ class content(ctk.CTkCanvas):
         self.head.visual_button.bind("<Button-1>", lambda event : self.switch_content(status="visual"))
         return None
 
-    def make_visual_programming(self):
+    def make_visual_programming(self) -> None:
         visual_programming_frame(master=self.visual_content, text="mainframe")
         return None
     

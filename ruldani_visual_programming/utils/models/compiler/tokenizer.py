@@ -17,7 +17,7 @@ FUNC = [
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is","pass","self"
+    "class", "import", "from", "as", "in", "#", "is","pass","self", "->"
 ]
 
 OPERATOR = [
@@ -43,7 +43,7 @@ class token():
     def type_token(self):
         char = self.name
         # Type newline
-        if self.name == "n_line":
+        if self.name == "NEW_LINE":
             return "NEW_LINE"
         
         # Type function
@@ -63,10 +63,16 @@ class token():
         elif self.detection(char=char, DEF= SEPARATOR):
             return "SEPARATOR"
         
+        elif char == "TAB":
+            return "TAB"
+
         return "ID"
     
     def get_token(self):
         return self.name, self.begin, self.end, self.type
+
+    def get_name(self):
+        return self.name
     
     def print_token(self):
         name = ""
@@ -139,7 +145,7 @@ class tokenizer():
                 endif = f"{line}.{i-new_l-1}"
                 line = line + 1
                 new_l = i  
-                write = "n_line"
+                write = "NEW_LINE"
 
             # Deteksi titik(.) dan koma (,)
             elif detection == "FUNC":
@@ -157,7 +163,7 @@ class tokenizer():
             # Deteksi white space
             elif detection == "WHITE_SPACE":
                 tab = tab + 1
-                write = char
+                write = " "
 
             # Deteksi semicolon dan braces ([, ], {, })
             elif detection == "SEPARATOR" :
@@ -169,7 +175,7 @@ class tokenizer():
             
             # detection tab
             if tab == 4 :
-                print("tab")
+                write = "TAB"
             
             # writing new token
             if write != None :
@@ -191,6 +197,7 @@ class tokenizer():
                     token_stream.append(new_token)
                     begin = end
                     end = f"{line}.{i-new_l}"
+                    tab = 0
 
                 # penambahan token untuk token yang terdeteksi selain white space
                 if write != " " :
@@ -200,15 +207,31 @@ class tokenizer():
 
                     # append token ke token stream
                     token_stream.append(new_token)
+                    tab = 0                    
                 
                 # reset variabel
-                tab = 0
                 temp = ""
                 begin = f"{line}.{i-new_l}"
                 end = None
-        
-        return token_stream
 
+        return token_stream
+    
+    def reverse(self):
+        concat: str = ""
+        for token in self.token:
+            name: str = token.get_name()
+            if  name == "NEW_LINE":
+                concat += "\n"
+
+            elif name == "TAB":
+                concat += "\t"
+
+            else :
+                concat += name
+
+            concat += " "
+        
+        print(concat)
 
 if __name__ == "__main__":
     def analisa_biner(path) :
@@ -219,7 +242,7 @@ import tkinter as tk
 
 
 # baris untuk open folder 
-folder = '/content/test'
+folder: str = '/content/test'
 
 # Fungsi untuk melakukan transformasi Fourier pada gambar dalam folder
 def deteksi_tepi_folder_images(folder_path):
@@ -236,6 +259,6 @@ def deteksi_tepi_folder_images(folder_path):
 
 deteksi_tepi_folder_images('{path}')'''
     
+    concat: str = ''''''
     token = tokenizer(analisa_biner("/path_ini_/"))
-    for token_n in token.token:
-        token_n.print_token()
+    token.reverse()

@@ -33,22 +33,21 @@ class code_identifier:
                 btn_now: Button = Button(wahhid, "home.png")
 
                 # jump to get_func_name
-                jump += self.get_func_name(btn_now=btn_now, profil=profil)
+                self.get_func_name(btn_now=btn_now, profil=profil)
                 res.append(btn_now)
 
         return res
     
     # make sub_button
-    def get_func_name(self, btn_now: Button, profil) -> int:
+    def get_func_name(self, btn_now: Button, profil) -> None:
         # constrait : list = ["(", "args*", ")"]
-        jump = 1
 
         while len(profil) > 0:
-            wahh, _, _, _ = profil.pop().get_token()
-            
+            wahh, _, _, _ = profil[len(profil)-1].get_token()
             if wahh == "def":
+                profil.pop()
                 nama_fun,_, _, _ = profil.pop().get_token()
-                
+
                 if nama_fun == "__init__":
                     continue
                 
@@ -56,46 +55,54 @@ class code_identifier:
                 btn_now.set_sub_buttons(btn_sub)
 
                 # masuk ke fungsi make interpreter
-                # jump += self.make_interpreter(profile=profil, sub_button=btn_sub, nama = nama_fun)
-                jump += 1
+                self.make_interpreter(profile=profil)
             
             elif wahh == "class":
                 # masukan kedalam interpreter yang berjalan
                 # buat interpreter baru
-                return jump
-        return jump
+                return None
+            
+            else :
+                profil.pop()
+
+        return None
     
-    def make_interpreter(self, profile, sub_button: SubButton, nama: str) -> int:
+    def make_interpreter(self, profile) -> None:
         constrait: str = ["(", "kwargs", ")", ":"]
-        jump = 1
-        inputs: list = []
-        output: list = []
-        intr: interpreter = interpreter()
         register: str = ""
 
-        for k in reversed(range(len(profile))):
-            wahh, _, _, _ = profile.pop().get_token()
-            if wahh == ":" :
-                wahhw: str = profile.pop().get_token()
+        # fungsi untuk mencari input
+        while True:
+            wahh, _, _, _ = profile[-1].get_token()
+            if wahh == ")":
+                profile.pop()
+                break
 
-                while wahhw != ",":
-                    register += wahhw
+            elif wahh == ":" :
+                register = ""
+                profile.pop()
+                while True :
+                    sets, _, _, _ = profile[-1].get_token()
+                    if sets == ")" or sets == ",":
+                        # dilakukan input ke button input
+                        break
 
-                register=""
+                    else :
+                        register += sets
+                        profile.pop()
+            
+            else :
+                profile.pop()
 
-            elif wahh == ")":
+        while True :
+            wahh, _, _, _ = profile[-1].get_token()
+            if wahh == "->" :
+                print("output")
+            
+            elif wahh == ":":
                 break
 
             else:
-                if register != "":
-                    print(wahh)
-            
-        for k in reversed(range(len(profile))):
-            wahh, _, _, _ = profile[k].get_token()
-            if wahh == ":" :
-                break
-
-            elif wahh == "->":
-                wahhw, _, _, _ = profile[k-1].get_token()            
-        
-        return jump
+                profile.pop()
+              
+        return None

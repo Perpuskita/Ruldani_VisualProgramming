@@ -54,5 +54,7 @@ class code_content(ctk.CTkFrame):
 class visual_content(ctk.CTkCanvas):
     def __init__(self, master):
         super().__init__(master, bg = "#2B2B2B", highlightthickness = 0)
+        self.bind("<Configure>", self.on_resize)
 
-    
+    def on_resize(self, event):
+        print(event.height) 

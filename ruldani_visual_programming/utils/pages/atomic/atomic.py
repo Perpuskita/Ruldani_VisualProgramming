@@ -50,7 +50,7 @@ class button_visual(ctk.CTkButton):
         self.configure(text_color = cm.TEXT_COLOR, fg_color = cm.SECONDARY_COLOR,  hover_color=cm.ORANGE_PALLETE)
 
     def toggle_on(self):
-        self.configure(text_color = cm.BACKGROUND_COLOR, fg_color = cm.ORANGE_PALLETE,  hover_color=cm.SECONDARY_COLOR)
+        self.configure(text_color = cm.BACKGROUND_COLOR, fg_color = cm.ORANGE_PALLETE,  hover_color=cm.ORANGE_PALLETE)
 
 
 class button_code(ctk.CTkButton):
