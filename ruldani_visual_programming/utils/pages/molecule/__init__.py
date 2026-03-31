@@ -1,2 +1,3 @@
 from ruldani_visual_programming.utils.pages.molecule.molecule import *
 from ruldani_visual_programming.utils.pages.molecule.visual_programming_frame import visual_programming_frame
+from ruldani_visual_programming.utils.pages.molecule.preferences_visual_programming import preferences_entry, preference_dropdown_entry, preference_connection

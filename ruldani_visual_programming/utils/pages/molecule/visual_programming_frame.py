@@ -2,19 +2,24 @@ import customtkinter as ctk
 import random
 import ruldani_visual_programming.utils.color_manager as cm
 from ruldani_visual_programming.utils import image
-from ruldani_visual_programming.utils.pages.atomic import nodeberzier
+from ruldani_visual_programming.utils.pages.base import nodeberzier
 
 class visual_programming_frame(ctk.CTkFrame):
-    def __init__(self, master, text):
+    def __init__(self, master, text, container: list, active_line):
         super().__init__(master=master, width=100, height=30)
         self.master = master
+        
+        # make utils for visual programming frame
+        self.tooltip = None
+        self.container = container
+        self.active_line = active_line
+        
+        # make all widget
         self.initial_position()
         self.make_inner_frame(text=text)
-        self.make_input_node(types="imageInput1.png")
-        self.make_output_node(types="imageOutput2.png")
-        self.tooltip = None
+        self.input: nodeberzier = self.make_input_node(types="imageInput1.png")
+        self.output: nodeberzier = self.make_output_node(types="imageOutput2.png")
 
-        
         self.selected = False
 
     def initial_position(self) -> None:
@@ -48,27 +53,23 @@ class visual_programming_frame(ctk.CTkFrame):
         print("hide tooltip")
         return None
 
-    def make_input_node(self, types: str) -> ctk.CTkLabel:
+    def make_input_node(self, types: str) -> nodeberzier:
         img = image(types,[10,10])
         new = ctk.CTkLabel(master=self, text="", image=img, height=10, width=10, fg_color="transparent")
         new.place(relx = 0.08, rely = 0.5, anchor = "center" )
 
-        cointainer = []
-        active_line = None
-
-        hub:nodeberzier = nodeberzier(master=self.master, node_type="path", image_id=new, coor=self, nodeberzier_container=cointainer, active_line=active_line)
-        return new
+        hub:nodeberzier = nodeberzier(master=self.master, node_type="path", image_id=new, coor=self, nodeberzier_container=self.container, active_line=self.active_line)
+        self.container.append(hub)
+        return hub
     
-    def make_output_node(self, types: str) -> ctk.CTkLabel:
+    def make_output_node(self, types: str) -> nodeberzier:
         img = image(types,[10,10])
         new = ctk.CTkLabel(master=self, text="", image=img, height=10, width=10, fg_color="transparent")
         new.place(relx = 0.92, rely = 0.5, anchor = "center" )
 
-        cointainer = []
-        active_line = None
-
-        hub:nodeberzier = nodeberzier(master=self.master, node_type="path", image_id=new, coor=self, nodeberzier_container=cointainer, active_line=active_line)
-        return new
+        hub:nodeberzier = nodeberzier(master=self.master, node_type="path", image_id=new, coor=self, nodeberzier_container=self.container, active_line=self.active_line)
+        self.container.append(hub)
+        return hub
     
     def on_drag(self, event) -> None:
 
@@ -87,9 +88,14 @@ class visual_programming_frame(ctk.CTkFrame):
         if x > int(self.master.winfo_width()/2) - 50:
             x = int(self.master.winfo_width()/2 - 50)
         
+        self.update_node()
         self.place(x=x, y=y)
         return None
     
+    def update_node(self) -> None:
+        self.input.force_update()
+        self.output.force_update()
+
     def on_click(self, event) -> None:
 
         print("on click")

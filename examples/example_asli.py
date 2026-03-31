@@ -5,12 +5,12 @@ import tkinter as tk
 import random
 import pyperclip
 from ruldani_visual_programming.utils import interpreter_code, highlight, image
-from ruldani_visual_programming.utils.pages.atomic import button
+from ruldani_visual_programming.utils.pages.base import button
 import tkinter as tk
 import ruldani_visual_programming.utils.color_manager as cm
 
 from ruldani_visual_programming.utils import Button, SubButton
-from ruldani_visual_programming.utils.pages.atomic import nodeberzier
+from ruldani_visual_programming.utils.pages.base import nodeberzier
 
 # Define your base directory
 base_dir = os.path.dirname(os.path.abspath(__file__))

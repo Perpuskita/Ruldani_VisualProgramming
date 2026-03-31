@@ -40,7 +40,7 @@ if __name__ == "__main__":
     )
     textbox.pack(expand=True, fill="both")
 
-    text = read_file_to_string("/ruldani_visual_programming/utils/pages/atomic/atomic.py")
+    text = read_file_to_string("/ruldani_visual_programming/code_from_scratch.py")
     # configure 
     textbox.configure(state="normal")
     textbox.delete("1.0", "end")

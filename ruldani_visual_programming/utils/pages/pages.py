@@ -1,5 +1,5 @@
 from ruldani_visual_programming.utils.pages.organism import ribbon, sidebar, content, settings, preferences
-from ruldani_visual_programming.utils.pages.atomic import button_sidebar, nodeberzier
+from ruldani_visual_programming.utils.pages.base import button_sidebar, nodeberzier
 
 import customtkinter as ctk
 import tkinter as tk
@@ -22,11 +22,15 @@ class pages(tk.Tk):
         self.make_window([1440, 720])
 
         # membuat sidebar button
-        sub_btn: list  = self.sidebars.make_widget(button=button, sub_button=sub_button)
-        self.binding_sidebar(sub_button=sub_btn)
-
-
-
+        btn: list  = self.sidebars.make_widget(button=button)
+        
+        sub_btn: list = []
+        # gunakan loop untuk binding sidebar
+        for i in range(len(btn)) :
+            for j, sub in enumerate(sub_button[i]):
+                new = self.sidebars.make_sub_button(isi_sidebar=btn[i], icon=sub, identity_btn= button[i], identity_sub=sub, sequence=j)
+                self.binding_sidebar(new)
+        
     # set presenter untuk melakukan komunikasi 2 arah ke presenter
     def set_presenter(self, presenter: presenters):
         self.presenter = presenter
@@ -49,35 +53,48 @@ class pages(tk.Tk):
         
             
         # make 2 panel : panel settings and main panel
-        main_panel = self.main_panel()
+        main_panel = self.main_paneling()
         setting = settings(self)
+        
 
         # make workspace and menubar on main panel
-        workspace = self.workspace_panel(master=main_panel)
+        workspace = self.workspace_paneling(master=main_panel)
         menubar = ribbon(master=main_panel)
         
         # workspace panel
         self.sidebars: sidebar = sidebar(master=workspace)
         self.contents = content(master=workspace)
         self.preferences = preferences(master=workspace)
+        
+        # binding hide sidebar
+        setting.buttons[0].bind("<Button-1>", lambda event : self.hide_sidebar())
     
-    def binding_sidebar(self, sub_button: list[button_sidebar]):
-        for button in sub_button:
-            button.bind("<Button-1>", lambda event : self.make_visual_programming())
+    def hide_sidebar(self):
+        print("hide")
+        self.sidebars.toggle()
+
+    # binding sidebar dengan menggunakan lambda str 
+    def binding_sidebar(self, sub_button: button_sidebar):
+        sub_button.bind("<Button-1>", lambda event : self.make_visual_programming())
         return None
     
     def make_line(self):
         return None
 
+    # make visual programming dan berikan konfigurasinya dari presenter dngan value str
     def make_visual_programming(self):
-        self.contents.make_visual_programming()
+
+        # ambil konfigurasi dari presenter
         self.presenter.make_visual_programming()
+
+        # buatkan visual programming content berdasarkan presenter
+        self.contents.make_visual_programming()
 
     def clear_preferences(self):
         return None
 
     # make workspace panel
-    def workspace_panel(self, master):
+    def workspace_paneling(self, master):
         workspace = ctk.CTkFrame(master=master, corner_radius=0)
         workspace.grid(row=1, column=1, sticky="nsew")
         workspace.grid_columnconfigure(0, weight=0)
@@ -87,7 +104,7 @@ class pages(tk.Tk):
 
         return workspace
 
-    def main_panel(self):
+    def main_paneling(self):
         main = ctk.CTkFrame(self, corner_radius=0)
         main.grid(row=0, column=1, sticky="nsew")
         main.grid_columnconfigure(0, weight=0)

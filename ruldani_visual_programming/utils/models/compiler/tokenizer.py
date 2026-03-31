@@ -17,7 +17,8 @@ FUNC = [
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is","pass","self", "->"
+    "class", "import", "from", "as", "in", "#", "is","pass","self", "->", 
+    "try", "except","raise", "with", "and", "or"
 ]
 
 OPERATOR = [
@@ -88,7 +89,7 @@ class token():
 
 class tokenizer():
     def __init__(self, text):
-        self.token = self.make_token(text)
+        self.token: list[token] = self.make_token(text)
 
     def detection(self, char, DEF):
         for separate in DEF:

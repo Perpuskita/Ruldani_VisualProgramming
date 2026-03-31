@@ -68,9 +68,6 @@ class ImageIO:
         except Exception as e:
             raise Exception(f"Failed to display image: {e}")
 
-import numpy as np
-
-
 class ImageManip:
     def __init__(self):
         pass
@@ -184,12 +181,15 @@ class ImageManip:
         return (gray * 255).astype(np.uint8)
     
 
-class Neural_Network:
+class NeuralNetwork:
     def __init__(self):
         pass
 
-    def make_neuron(self, input_layer: np.ndarray) -> np.ndarray:
+    def fully_connected(self, input_layer: np.ndarray) -> np.ndarray:
         return None
     
+    def convolutional_nn(self, input_layer: np.ndarray) -> np.ndarray:
+        return None
+
     def activation_layer(self, input_layer: np.ndarray) -> np.ndarray:
         return None

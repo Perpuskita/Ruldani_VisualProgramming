@@ -10,6 +10,9 @@ class content(ctk.CTkCanvas):
         self.configure_panel()
         self.visual_mode = False
         self.bind("<Configure>", self.on_resize)
+        self.node_container: list = []
+        self.active_line = None
+        self.visual_frame_container: list [visual_programming_frame] = []
 
     def make_widget(self) -> None:
         self.head = head_contents(master=self)
@@ -27,18 +30,23 @@ class content(ctk.CTkCanvas):
         self.switch_content(status="visual")
 
         return None
-    
+
     def binding_head_button(self, head: head_contents):
         self.head.code_button.bind("<Button-1>", lambda event : self.switch_content(status="code"))
         self.head.visual_button.bind("<Button-1>", lambda event : self.switch_content(status="visual"))
         return None
 
     def make_visual_programming(self) -> None:
-        visual_programming_frame(master=self.visual_content, text="mainframe")
+        new: visual_programming_frame = visual_programming_frame(master=self.visual_content, text="mainframe", container=self.node_container, active_line=self.active_line)
+        self.visual_frame_container.append(new)
         return None
     
     def on_resize(self, event):
-        print(f"Lebar baru: {event.width}, Tinggi baru: {event.height}")
+        self.after(50, self.update_node)
+        
+    def update_node(self):
+        for frame in self.visual_frame_container :
+            frame.update_node()
 
     def switch_content(self, status: str):
         if (status == "visual") :

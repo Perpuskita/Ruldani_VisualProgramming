@@ -33,12 +33,14 @@ class models():
 
     # make new frame
     def make_new_frame(self):
-
         return None
     
     # preference database
     def get_preference_data():
         return None
+    
+    def make_subbutton(self, ):
+        return None 
 
     # ui for setting content from sidebar ( dev )
     

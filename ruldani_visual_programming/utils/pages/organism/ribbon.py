@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages.atomic import button_ribbon, button
+from ruldani_visual_programming.utils.pages.base import button_ribbon, button
 import ruldani_visual_programming.utils.color_manager as cm
 
 class ribbon(ctk.CTkFrame):

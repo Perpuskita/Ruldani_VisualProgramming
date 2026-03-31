@@ -14,9 +14,14 @@ class SubButton:
         self.interpreter = None
         self.input = None
         self.output = None
+        self.text = ""
 
     def create_image(self, icon: str, height = 15 , width = 15):
         return image(icon, dimension=[16, 16])
+    
+    def text_code(self, text: str) -> None:
+        self.text = text
+        return None
 
     # Fungsi untuk membuat baris node 
     # Menghasilkan container dari kelas interpreter

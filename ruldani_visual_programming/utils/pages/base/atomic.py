@@ -7,40 +7,10 @@ WIDTH = 160
 HEIGHT_TEXT = 10
 HEIGHT_ENTRY = 25
 
-class button(ctk.CTkButton):
-    def __init__(self, master, icon: str, size: int = 15, colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.GREEN_PALLETE ):
-        super().__init__(master=master, fg_color=colour, hover_color=hover_colour, height=size, width=size)
-        ukuran: int = size - 3
-        images = image(filename=icon, dimension=[ukuran,ukuran])
-        self.configure(image=images, text="", width = ukuran, height=ukuran+15)
-
-class button_sidebar(ctk.CTkButton):
-    def __init__(self, master, button: str, subbutton: str, icon: str, size: int = 15, colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.GREEN_PALLETE ):
-        super().__init__(master=master, fg_color=colour, hover_color=hover_colour, height=15, width=15)
-        
-        self.identity = [button, subbutton]
-        
-        ukuran: int = size - 3
-        images = image(filename=icon, dimension=[ukuran,ukuran])
-        self.configure(image=images, text="", width = ukuran, height=ukuran+15)
-
-    def binding_button(self) -> None:
-        return None
-
 class logo(ctk.CTkLabel):
     def __init__(self, master, logo_image: str, width = 40, height = 40):
         logo_img: ctk.CTkImage = image(logo_image, [15,15]) 
         super().__init__(master, width, height, image = logo_img, text ="")
-
-class button_ribbon(ctk.CTkButton):
-    def __init__(self, master, text: str ):
-        super().__init__(master, width=50, height=10, text=text, fg_color=cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR)
-
-    def release_hover(self):
-        self.configure(font=("concolas", 12))
-
-    def on_hover(self):
-        self.configure(font=("concolas", 12, "underline"))
 
 class button_visual(ctk.CTkButton):
     def __init__(self, master ):
@@ -66,20 +36,6 @@ class button_code(ctk.CTkButton):
 class window(ctk.CTkFrame):
     def __init__(self, master, width = 200, height = 200):
         super().__init__(master, width, height)
-
-class sidebar_class(ctk.CTkButton):
-    def __init__(self, master, text: str ):
-        self.dropdown: ctk.CTkImage = image("arrow_down.png", [16, 16])
-        self.hidden: ctk.CTkImage = image("arrow_right.png", [16, 16])
-        
-        super().__init__(master, width=120, height=10, image=self.dropdown, text=text, fg_color=cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR, font=("Concolas", 12, "normal"), anchor="w" )
-    
-    def hide(self):
-        self.configure(image = self.hidden)
-
-    def show(self):
-        self.configure(image = self.dropdown)
-
 
 class flowchart(ctk.CTkButton):
     def __init__(self, master, color: str):

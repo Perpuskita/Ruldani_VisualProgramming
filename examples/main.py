@@ -8,7 +8,7 @@ import tkinter as tk
 import ruldani_visual_programming.utils.color_manager as cm
 
 from ruldani_visual_programming.utils import Button, SubButton
-from ruldani_visual_programming.utils.pages.atomic import nodeberzier
+from ruldani_visual_programming.utils.pages.base import nodeberzier
 
 # Atur mode tampilan (light/dark)
 ctk.set_appearance_mode("dark")

@@ -1,28 +1,36 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages.atomic import preference_dropdown, preference_error, preference_text, preference
+from ruldani_visual_programming.utils.pages.molecule import preferences_entry, preference_dropdown_entry, preference_connection
 import ruldani_visual_programming.utils.color_manager as cm
 
 
 class preferences(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master, width=200, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
+        self.counter: int = 0
         self.make_widget()
         self.configure_panel()
 
+    def widget_counter(self):
+        self.counter += 1 
+        return self.counter
+
     def make_widget(self):
-        tes = preference_text(master=self, text="nama node")
-        tes.grid(row =1, column=0, sticky = "ew", padx = 20, pady=[20,0])
-        result = preference(master=self)
-        result.grid(row=2, column=0, padx=20, pady=10, sticky ="w")
-        tes = preference_error(master=self, text="yahh error !")
-        tes.grid(row =3, column=0, sticky = "ew", padx = 20)
+        # widget 1
+        sop: preferences_entry = preferences_entry(master=self, nama_widget= "nama_node")
+        sop.grid(row = self.widget_counter(), column=0, sticky="ew")
 
-        tes = preference_text(master=self, text="dropdown node")
-        tes.grid(row =4, column=0, sticky = "ew", padx = 20, pady=[10,0])
+        # widget 2
         pilihan: list[str] = ["yus", "pos", "los"]
-        ops = preference_dropdown(master=self, values=pilihan)
-        ops.grid(row =5, column=0, sticky = "ew", padx = 20, pady = 10)
+        sep: preference_dropdown_entry = preference_dropdown_entry(master=self, nama="dropdown", choice=pilihan)
+        sep.grid(row = self.widget_counter(), column=0, sticky="ew")
 
+        # widget space
+        self.grid_rowconfigure(index= self.widget_counter(), weight=1)
+
+        # connection list
+        conn: preference_connection = preference_connection(master=self)
+        conn.grid(row=self.widget_counter(), sticky ="ew")
+        
 
     def configure_panel(self):
         self.grid(row=0, column=2, sticky="ns")
@@ -40,3 +48,11 @@ class preferences(ctk.CTkFrame):
 
         preference_label.grid(row=0, column=0, padx=20, pady=10, sticky="ew")  # 4. Label mengisi lebar kolom
 
+    def reset_widget(self) -> None:
+        return None
+    
+    def set_widget(self) -> None:
+        return None
+    
+    def show_widget(self) -> None:
+        return None
