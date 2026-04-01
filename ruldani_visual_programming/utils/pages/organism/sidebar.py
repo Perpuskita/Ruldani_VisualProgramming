@@ -8,7 +8,7 @@ class sidebar(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master, width=170, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
         self.hide = True
-        self.toggle()
+        self.toggle_widget()
 
     # membuat ui wiget dari sidebar
     def make_widget(self, button) -> list[ctk.CTkFrame]:
@@ -74,7 +74,7 @@ class sidebar(ctk.CTkFrame):
             button.show()
             sidebar.grid_propagate(True)
 
-    def toggle(self) -> None :
+    def toggle_widget(self) -> None :
         if self.hide : 
             self.show()
         else :

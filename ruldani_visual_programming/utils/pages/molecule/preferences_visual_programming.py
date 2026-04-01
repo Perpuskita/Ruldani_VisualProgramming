@@ -78,14 +78,49 @@ class preference_connection(ctk.CTkFrame):
         return None
     
 class preference_connection_drawer(ctk.CTkFrame):
-    def __init__(self, master, width = 200, height = 200, corner_radius = None, border_width = None, bg_color = "transparent", fg_color = None, border_color = None, background_corner_colors = None, overwrite_preferred_drawing_method = None, **kwargs):
-        super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
+    def __init__(self, master, width = 200, height = 200):
+        super().__init__(master, width, height, fg_color=cm.BACKGROUND_COLOR)
+        self.hide = False
+        self.height_header: int = 20
+        
+        self.make_widget()
+        self.toggle_widget()
+        
+    def widget_counter(self):
+        return None
 
     def make_widget(self) -> None:
+        # configure grid propagate
+        self.grid_propagate(False)
+        
+        # make swipe header
+        header = ctk.CTkLabel(master=self, text="Connection List", height=self.height_header, width=200, fg_color=cm.SECONDARY_COLOR, text_color=cm.TEXT_COLOR, corner_radius=6)
+        header.grid_configure(column=0, row=0)
+        
+        # binding header widget
+        header.bind("<Button-1>", lambda event: self.toggle_widget())
+
+        # make connection
+        return None
+
+    def toggle_widget(self) -> None:
+        print("toggle widget")
+        if self.hide :
+            self.show_widget()
+
+        else:
+            self.hide_widget()
+
+        self.hide = not self.hide
+        return None
+
+    def expose_widget(self) -> None:
         return None
 
     def hide_widget(self) -> None:
+        self.configure(height=self.height_header)
         return None
     
     def show_widget(self) -> None:
+        self.configure(height=200)
         return None

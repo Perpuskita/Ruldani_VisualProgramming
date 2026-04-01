@@ -13,6 +13,9 @@ class content(ctk.CTkCanvas):
         self.node_container: list = []
         self.active_line = None
         self.visual_frame_container: list [visual_programming_frame] = []
+        
+        # futureproof
+        # self.hidden_preferences = None
 
     def make_widget(self) -> None:
         self.head = head_contents(master=self)

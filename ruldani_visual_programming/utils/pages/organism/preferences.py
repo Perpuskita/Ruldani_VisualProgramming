@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages.molecule import preferences_entry, preference_dropdown_entry, preference_connection
+from ruldani_visual_programming.utils.pages.molecule import preferences_entry, preference_dropdown_entry, preference_connection_drawer
 import ruldani_visual_programming.utils.color_manager as cm
 
 
@@ -7,8 +7,11 @@ class preferences(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master, width=200, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
         self.counter: int = 0
+        self.hidden_status: bool = False
         self.make_widget()
         self.configure_panel()
+        self.toggle_widget()
+
 
     def widget_counter(self):
         self.counter += 1 
@@ -28,12 +31,12 @@ class preferences(ctk.CTkFrame):
         self.grid_rowconfigure(index= self.widget_counter(), weight=1)
 
         # connection list
-        conn: preference_connection = preference_connection(master=self)
+        conn: preference_connection_drawer = preference_connection_drawer(master=self)
         conn.grid(row=self.widget_counter(), sticky ="ew")
         
 
     def configure_panel(self):
-        self.grid(row=0, column=2, sticky="ns")
+        # grid configure
         self.grid_propagate(False)
         self.grid_columnconfigure(0, weight=1)
         
@@ -54,5 +57,19 @@ class preferences(ctk.CTkFrame):
     def set_widget(self) -> None:
         return None
     
+    def toggle_widget(self) -> None:
+        if self.hidden_status:
+            self.hide_widget()
+        else:
+            self.show_widget()
+        
+        self.hidden_status = not self.hidden_status
+        return None
+    
     def show_widget(self) -> None:
+        self.grid(row=0, column=2, sticky="ns")
+        return None
+    
+    def hide_widget(self) -> None:
+        self.grid_remove()
         return None
