@@ -40,8 +40,8 @@ class visual_programming_frame(ctk.CTkFrame):
         new.bind("<B1-Motion>", command=self.on_drag)
 
         # bind tooltip
-        new.bind("<Enter>", self.tooltip_show)
-        new.bind("<Leave>", self.tooltip_hide)
+        # new.bind("<Enter>", self.tooltip_show)
+        # new.bind("<Leave>", self.tooltip_hide)
         
         return new
     
@@ -97,6 +97,5 @@ class visual_programming_frame(ctk.CTkFrame):
         self.output.force_update()
 
     def on_click(self, event) -> None:
-
         print("on click")
         return None

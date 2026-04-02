@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import ruldani_visual_programming.utils.color_manager as cm
-from ruldani_visual_programming.utils.pages.base import preference_dropdown, preference_error, preference_text, preference, preference_connection_status, preference_connection_name
+from ruldani_visual_programming.utils.pages.base import preference_dropdown, preference_error, preference_text, preference, preferences_connection_status, preferences_connection_name
 
 
 class preferences_entry(ctk.CTkFrame):
@@ -65,11 +65,11 @@ class preference_connection(ctk.CTkFrame):
         number.grid(column=0, row=0, padx=5, pady=5, sticky="w")
 
         # make a nama connection: preference conn textbox => Nama_panel.connection_var
-        connection_name: preference_connection_name = preference_connection_name(master=self, nama_node="koel", connection_name="koe")
+        connection_name: preferences_connection_name = preferences_connection_name(master=self, nama_node="koel", connection_name="koe")
         connection_name.grid(column=1, row=0, padx=5, pady=2, sticky="we")
 
         # make a next connection: preference conn status => kotak + warna + status + kemana ?
-        status:preference_connection_status = preference_connection_status(master=self)
+        status:preferences_connection_status = preferences_connection_status(master=self)
         status.grid(column=1, row=1, padx=5, pady=2, sticky="we")
 
         return None
@@ -94,7 +94,14 @@ class preference_connection_drawer(ctk.CTkFrame):
         self.grid_propagate(False)
         
         # make swipe header
-        header = ctk.CTkLabel(master=self, text="Connection List", height=self.height_header, width=200, fg_color=cm.SECONDARY_COLOR, text_color=cm.TEXT_COLOR, corner_radius=6)
+        header = ctk.CTkLabel(master=self, text="Connection Review", 
+                              height=self.height_header, 
+                              width=200, 
+                              fg_color=cm.SECONDARY_COLOR, 
+                              text_color=cm.TEXT_COLOR, 
+                              corner_radius=6)
+        
+        # header grid configure
         header.grid_configure(column=0, row=0)
         
         # binding header widget

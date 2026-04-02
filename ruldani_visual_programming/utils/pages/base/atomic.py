@@ -10,7 +10,8 @@ HEIGHT_ENTRY = 25
 class logo(ctk.CTkLabel):
     def __init__(self, master, logo_image: str, width = 40, height = 40):
         logo_img: ctk.CTkImage = image(logo_image, [15,15]) 
-        super().__init__(master, width, height, image = logo_img, text ="")
+        super().__init__(master, width, height, text ="")
+        self.configure(image=logo_img)
 
 class button_visual(ctk.CTkButton):
     def __init__(self, master ):

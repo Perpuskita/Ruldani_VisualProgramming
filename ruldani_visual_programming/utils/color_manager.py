@@ -14,5 +14,8 @@ TEXT_COLOR = "#ffffff"
 DARK_COLOR = "#000000"
 SECONDARY_COLOR = "#646464"
 
+# visual content color
+VISUAL_CONTENT = "#2b2b2b"
+
 # font
 FONT = "Consolas"

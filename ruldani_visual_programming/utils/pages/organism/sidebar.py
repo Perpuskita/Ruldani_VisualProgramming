@@ -52,7 +52,7 @@ class sidebar(ctk.CTkFrame):
         return sidebar_sub_btn
     
     # membuat sub button kedalam button ke - 1
-    def make_sub_button(self, isi_sidebar:ctk.CTkFrame, icon: list, identity_btn: str, identity_sub: str, sequence: int):
+    def  make_sub_button(self, isi_sidebar:ctk.CTkFrame, icon: list, identity_btn: str, identity_sub: str, sequence: int):
         # jumlah sub button perbaris
         jumlah: int = 4
 

@@ -65,6 +65,9 @@ class pages(tk.Tk):
         self.sidebars: sidebar = sidebar(master=workspace)
         self.contents = content(master=workspace)
         self.preferences = preferences(master=workspace)
+
+        # binding content pre hidden
+        self.contents.pref_hiden.bind("<Button-1>", lambda event : self.hide_preferences())
         
         # binding hide sidebar
         setting.buttons[0].bind("<Button-1>", lambda event : self.hide_sidebar())
@@ -76,6 +79,7 @@ class pages(tk.Tk):
     def hide_preferences(self):
         print("hide preferences")
         self.preferences.toggle_widget()
+        self.contents.toggle_preference()
 
     # binding sidebar dengan menggunakan lambda str 
     def binding_sidebar(self, sub_button: button_sidebar):
