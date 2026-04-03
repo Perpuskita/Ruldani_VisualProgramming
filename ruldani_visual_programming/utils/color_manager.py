@@ -16,6 +16,7 @@ SECONDARY_COLOR = "#646464"
 
 # visual content color
 VISUAL_CONTENT = "#2b2b2b"
+CODE_CONTENT = "#222222"
 
 # font
 FONT = "Consolas"

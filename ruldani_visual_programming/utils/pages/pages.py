@@ -73,11 +73,11 @@ class pages(tk.Tk):
         setting.buttons[0].bind("<Button-1>", lambda event : self.hide_sidebar())
     
     def hide_sidebar(self):
-        print("hide sidebar")
+        # hide sidebar
         self.sidebars.toggle_widget()
 
     def hide_preferences(self):
-        print("hide preferences")
+        # hide preferences
         self.preferences.toggle_widget()
         self.contents.toggle_preference()
 

@@ -48,12 +48,12 @@ class preferences_hidden_button(ctk.CTkButton):
         super().__init__(master, width = 20, height = 80, text="", fg_color=cm.VISUAL_CONTENT, hover_color=cm.VISUAL_CONTENT, corner_radius=0)
         self.on_release_asset: image = image(filename="toggle_preferences.png", dimension=[12,48])
         self.on_hide_asset: image = image(filename="toggle_preferences2.png", dimension=[12,48])
-        self.hide = False
-        self.configure(image=self.on_hide_asset, text="", width = 10, height=50)
+        self.hide: bool = True
+        self.make_widget()
 
     def make_widget(self)-> None:
-        self.on_release()
-    
+        self.configure(text="", image=self.on_release_asset, width = 10, height=50)
+        
     def on_hover(self) -> None:
         # image ganti on hover preferences
         return None

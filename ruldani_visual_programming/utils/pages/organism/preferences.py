@@ -6,18 +6,30 @@ import ruldani_visual_programming.utils.color_manager as cm
 class preferences(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master=master, width=200, corner_radius=0, fg_color=cm.BACKGROUND_COLOR)
-        self.counter: int = 0
-        self.hidden_status: bool = False
-        self.make_widget()
-        self.configure_panel()
-        self.toggle_widget()
+        self.counter: int = -1              # membuat penghitung widget 
+        self.hidden_status: bool = True     # status hidden utuk widget
+        self.configure_panel()              # konfigurasi untuk panel
+        self.toggle_widget()                # non aktifkan widget untuk pertama kali
+        # self.make_widget()
 
-
+    # penghitung widget
     def widget_counter(self):
         self.counter += 1 
         return self.counter
 
     def make_widget(self):
+        
+        # label preferences
+        preference_label = ctk.CTkLabel(
+            self, 
+            text="Preference", 
+            font=(cm.FONT, 16, "bold"), 
+            text_color=cm.TEXT_COLOR,
+            anchor="center" 
+        )
+
+        preference_label.grid(row= self.widget_counter(), column=0, padx=20, pady=10, sticky="ew")  
+
         # widget 1
         sop: preferences_entry = preferences_entry(master=self, nama_widget= "nama_node")
         sop.grid(row = self.widget_counter(), column=0, sticky="ew")
@@ -34,23 +46,12 @@ class preferences(ctk.CTkFrame):
         conn: preference_connection_drawer = preference_connection_drawer(master=self)
         conn.grid(row=self.widget_counter(), sticky ="ew")
         
-
     def configure_panel(self):
         # grid configure
+        self.grid(row=0, column=2, sticky="ns")
         self.grid_propagate(False)
         self.grid_columnconfigure(0, weight=1)
         
-        # menambahkan label
-        preference_label = ctk.CTkLabel(
-            self, 
-            text="Preference", 
-            font=(cm.FONT, 16, "bold"), 
-            text_color=cm.TEXT_COLOR,
-            anchor="center" 
-        )
-
-        preference_label.grid(row=0, column=0, padx=20, pady=10, sticky="ew")  # 4. Label mengisi lebar kolom
-
     def reset_widget(self) -> None:
         return None
     
@@ -67,9 +68,9 @@ class preferences(ctk.CTkFrame):
         return None
     
     def show_widget(self) -> None:
-        self.grid(row=0, column=2, sticky="ns")
+        self.configure(width=200)
         return None
     
     def hide_widget(self) -> None:
-        self.grid_remove()
+        self.configure(width=30)
         return None

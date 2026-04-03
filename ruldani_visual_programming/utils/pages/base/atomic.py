@@ -23,7 +23,6 @@ class button_visual(ctk.CTkButton):
     def toggle_on(self):
         self.configure(text_color = cm.BACKGROUND_COLOR, fg_color = cm.ORANGE_PALLETE,  hover_color=cm.ORANGE_PALLETE)
 
-
 class button_code(ctk.CTkButton):
     def __init__(self, master ):
         super().__init__(master, width=120, height=26, text="code", fg_color=cm.BLUE_PALLETE, text_color= cm.BACKGROUND_COLOR, hover_color=cm.SECONDARY_COLOR)

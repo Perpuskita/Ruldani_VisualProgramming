@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from ruldani_visual_programming.utils.pages.base import button_visual, button_code
+from ruldani_visual_programming.utils.pages.base import button_visual, button_code, textbox
 import ruldani_visual_programming.utils.color_manager as cm
 
 class head_contents(ctk.CTkFrame):
@@ -45,15 +45,29 @@ class head_contents(ctk.CTkFrame):
 
 
 class code_content(ctk.CTkFrame):
-    def __init__(self, master, width = 200, height = 200, corner_radius = None, border_width = None, bg_color = "transparent", fg_color = None, border_color = None, background_corner_colors = None, overwrite_preferred_drawing_method = None, **kwargs):
-        super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
+    def __init__(self, master, width = 200, height = 200, corner_radius = None, border_width = None, bg_color = "transparent", fg_color = cm.CODE_CONTENT):
+        super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color)
 
     def make_widget(self):
+        # make header
+        
+        # make scrollable code
+        # make copy button
         return None
+
+    def code_preview(self):
+        # loop + make widget
+        # highlight sintaks
+
+        # show
+        return None
+
+
+
 
 class visual_content(ctk.CTkCanvas):
     def __init__(self, master):
-        super().__init__(master, bg = "#2B2B2B", highlightthickness = 0)
+        super().__init__(master, bg = cm.VISUAL_CONTENT, highlightthickness = 0)
         self.bind("<Configure>", self.on_resize)
 
     def on_resize(self, event):

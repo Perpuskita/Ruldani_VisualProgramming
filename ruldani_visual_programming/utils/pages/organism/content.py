@@ -32,7 +32,7 @@ class content(ctk.CTkCanvas):
 
         # membuat pref hidden button
         self.pref_hiden: preferences_hidden_button = preferences_hidden_button(master=self.visual_content)
-        self.pref_hiden.place(relx = 1, rely = 0.5, anchor = "e" )
+        self.pref_hiden.place(relx = 1, rely = 0.1, anchor = "ne" )
 
         # make status on visual frame at first
         self.switch_content(status="visual")
