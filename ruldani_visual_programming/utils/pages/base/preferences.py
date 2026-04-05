@@ -46,8 +46,8 @@ class preferences_connection_status(ctk.CTkLabel):
 class preferences_hidden_button(ctk.CTkButton):
     def __init__(self, master):
         super().__init__(master, width = 20, height = 80, text="", fg_color=cm.VISUAL_CONTENT, hover_color=cm.VISUAL_CONTENT, corner_radius=0)
-        self.on_release_asset: image = image(filename="toggle_preferences.png", dimension=[12,48])
-        self.on_hide_asset: image = image(filename="toggle_preferences2.png", dimension=[12,48])
+        self.on_release_asset: image = image(filename="toggle_preferences2.png", dimension=[12,48])
+        self.on_hide_asset: image = image(filename="toggle_preferences.png", dimension=[12,48])
         self.hide: bool = True
         self.make_widget()
 

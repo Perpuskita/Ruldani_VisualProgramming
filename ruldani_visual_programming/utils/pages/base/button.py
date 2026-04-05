@@ -13,8 +13,22 @@ class button(ctk.CTkButton):
         ukuran: int = size - 3
         images = image(filename=icon, dimension=[ukuran,ukuran])
         self.configure(image=images, text="", width = ukuran, height=ukuran+15)
+        self.deactived()
 
-    def on_active(self):
+    def actived(self) -> None:
+        self.configure(fg_color = cm.GREEN_PALLETE, hover_color = cm.SECONDARY_COLOR)
+        return None
+    
+    def deactived(self) -> None:
+        self.configure(fg_color = cm.BACKGROUND_COLOR, hover_color = cm.GREEN_PALLETE)
+        return None
+    
+    def toggle_button(self) -> None:
+        # jika activated maka deactivated dan sebaliknya
+        if self._fg_color == cm.BACKGROUND_COLOR :
+            self.actived()
+        else :
+            self.deactived()        
         return None
 
 class button_sidebar(ctk.CTkButton):

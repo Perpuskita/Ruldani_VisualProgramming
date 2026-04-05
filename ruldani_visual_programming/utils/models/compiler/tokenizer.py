@@ -88,8 +88,9 @@ class token():
         print(f'''__ token : {name} ->    berada di : "{self.begin}","{self.end}" \tjenis token : {self.type}''')
 
 class tokenizer():
-    def __init__(self, text):
-        self.token: list[token] = self.make_token(text)
+    def __init__(self, text: str):
+        self.token: list[token] = []
+        self.token = self.make_token(text)
 
     def detection(self, char, DEF):
         for separate in DEF:
@@ -126,14 +127,16 @@ class tokenizer():
         return None
 
     # tokenisasi token
-    def make_token(self, text):
+    def make_token(self, text: str):
         temp = ""
         tab = 0
         line = 1
-        new_l = 0
+        new_l = -1
         token_stream = []
         begin = "1.0"
         end = "1.0"
+
+        max_loop: int = len(text)
 
         # loop token berdasarkan teks
         for i, char in enumerate(text) :
@@ -179,7 +182,7 @@ class tokenizer():
                 write = "TAB"
             
             # writing new token
-            if write != None :
+            if ( write != None ) :
                 # end token
                 end = f"{line}.{i-new_l}"
                 
@@ -214,6 +217,8 @@ class tokenizer():
                 temp = ""
                 begin = f"{line}.{i-new_l}"
                 end = None
+
+        # if lagi
 
         return token_stream
     

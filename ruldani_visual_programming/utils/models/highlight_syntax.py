@@ -45,18 +45,22 @@ class highlight ():
         self.highlight_token()
 
     def highlight_token(self ):
+        # memasukan text kedalam textbox        
+        self.textbox.insert("end", text=self.raw_text)
+
+        # mendapatkan semua hasil token yang sudah di olah di lexer
         profil = self.token.token
 
         # configurasi sementara sebelum melakukan parser
         for i, types in enumerate(TYPE_TOKEN):
-            self.textbox.tag_configure(types, foreground=COLOR_TOKEN[i])
+            self.textbox.tag_config(types, foreground=COLOR_TOKEN[i])
 
         # highlight text
         for token in profil:
-            _, begin, end, types = token.get_token()
+            name, begin, end, types = token.get_token()
             if types != "NEW_LINE" :
+                print(name + " " +begin + " " + end)
                 self.textbox.tag_add(types, begin, end)
-            # token.print_token()
-    
+        
     def treesitter(self) -> None:
         return None

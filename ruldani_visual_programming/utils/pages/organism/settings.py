@@ -12,8 +12,15 @@ class settings(ctk.CTkFrame):
         self.make_widget()
 
     def make_widget(self) -> None:
-        img: list[str] = ["thumbnail_bar.png","cpm1.png", "cpm2.png", "cpm3.png"]
 
+        # complement setting
+        img: list[str] = ["cpm1.png", "cpm2.png", "cpm3.png"]
+        hide_sidebar:str = "thumbnail_bar.png"
+
+        # menambahkan hide sidebar pada setting
+        img.insert(0, hide_sidebar)
+        
+        # looping untuk membuat button widget
         for i, image in enumerate(img):
             atomic = button(master=self, icon=image)
             if i == 0 :
@@ -38,4 +45,8 @@ class settings(ctk.CTkFrame):
         self.grid(row=0, column=0, sticky="ns")
         self.grid_propagate(False)
         self.grid_columnconfigure(3, weight=1)
+        return None
+    
+    def hide_sidebar(self) -> None:
+        self.buttons[0].toggle_button()
         return None

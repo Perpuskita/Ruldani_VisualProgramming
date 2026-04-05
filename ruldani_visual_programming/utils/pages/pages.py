@@ -54,7 +54,7 @@ class pages(tk.Tk):
             
         # make 2 panel : panel settings and main panel
         main_panel = self.main_paneling()
-        setting = settings(self)
+        self.setting = settings(self)
         
 
         # make workspace and menubar on main panel
@@ -70,11 +70,12 @@ class pages(tk.Tk):
         self.contents.pref_hiden.bind("<Button-1>", lambda event : self.hide_preferences())
         
         # binding hide sidebar
-        setting.buttons[0].bind("<Button-1>", lambda event : self.hide_sidebar())
+        self.setting.buttons[0].bind("<Button-1>", lambda event : self.hide_sidebar())
     
     def hide_sidebar(self):
         # hide sidebar
         self.sidebars.toggle_widget()
+        self.setting.hide_sidebar()
 
     def hide_preferences(self):
         # hide preferences
