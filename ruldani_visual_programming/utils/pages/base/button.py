@@ -10,17 +10,20 @@ HEIGHT_ENTRY = 25
 class button(ctk.CTkButton):
     def __init__(self, master, icon: str, size: int = 15, colour: str = cm.BACKGROUND_COLOR, hover_colour = cm.GREEN_PALLETE ):
         super().__init__(master=master, fg_color=colour, hover_color=hover_colour)
+        self.negative_color: str = colour
+        self.positive_color: str = hover_colour
+
         ukuran: int = size - 3
         images = image(filename=icon, dimension=[ukuran,ukuran])
         self.configure(image=images, text="", width = ukuran, height=ukuran+15)
         self.deactived()
 
     def actived(self) -> None:
-        self.configure(fg_color = cm.GREEN_PALLETE, hover_color = cm.SECONDARY_COLOR)
+        self.configure(fg_color = self.positive_color, hover_color = cm.SECONDARY_COLOR)
         return None
     
     def deactived(self) -> None:
-        self.configure(fg_color = cm.BACKGROUND_COLOR, hover_color = cm.GREEN_PALLETE)
+        self.configure(fg_color = self.negative_color, hover_color = self.positive_color)
         return None
     
     def toggle_button(self) -> None:

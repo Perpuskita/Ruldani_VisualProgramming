@@ -157,22 +157,9 @@ class tokenizer():
                 write = char
             
             # Deteksi built in function
-            elif detection == "BUILT_IN_FUNCTION":
+            elif detection is not None:
                 write = char
             
-            # Deteksi Operasi
-            elif detection == "OPERATOR":
-                write = char
-            
-            # Deteksi white space
-            elif detection == "WHITE_SPACE":
-                tab = tab + 1
-                write = " "
-
-            # Deteksi semicolon dan braces ([, ], {, })
-            elif detection == "SEPARATOR" :
-                write = char
-
             # penambahan char string jika tidak terdeteksi
             else:
                 temp = temp + char
@@ -182,7 +169,11 @@ class tokenizer():
                 write = "TAB"
             
             # writing new token
-            if ( write != None ) :
+            if ( write != None ) or (i >= max_loop-1):
+
+                if write == None:
+                    write = "ID"
+
                 # end token
                 end = f"{line}.{i-new_l}"
                 
