@@ -59,7 +59,7 @@ class highlight ():
         for token in profil:
             name, begin, end, types = token.get_token()
             if types != "NEW_LINE" :
-                print(name + " " +begin + " " + end)
+                # print(name + " " +begin + " " + end)
                 self.textbox.tag_add(types, begin, end)
         
     def treesitter(self) -> None:

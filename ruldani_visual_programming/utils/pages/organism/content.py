@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from ruldani_visual_programming.utils.pages.molecule import head_contents, visual_content, code_content, visual_programming_frame
+from ruldani_visual_programming.utils.pages.base import nodeberzier
 import ruldani_visual_programming.utils.color_manager as cm
 from ruldani_visual_programming.utils.pages.base import preferences_hidden_button
 
@@ -10,7 +11,7 @@ class content(ctk.CTkCanvas):
         self.configure_panel()
         self.visual_mode = False
         self.bind("<Configure>", self.on_resize)
-        self.node_container: list = []
+        self.node_container: list[nodeberzier] = []
         self.active_line = None
         self.visual_frame_container: list [visual_programming_frame] = []
         
@@ -52,6 +53,7 @@ class content(ctk.CTkCanvas):
     def make_visual_programming(self) -> bool:
         if not self.head.status:
             return False
+        
         new: visual_programming_frame = visual_programming_frame(master=self.visual_content, text="mainframe", container=self.node_container, active_line=self.active_line)
         self.visual_frame_container.append(new)
         return True
@@ -60,8 +62,8 @@ class content(ctk.CTkCanvas):
         self.after(50, self.update_node)
         
     def update_node(self):
-        for frame in self.visual_frame_container :
-            frame.update_node()
+        for node in self.node_container :
+            node.force_update()
 
     def switch_content(self, status: str):
         if (status == "visual") :

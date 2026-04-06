@@ -6,6 +6,8 @@ class textbox(ctk.CTkTextbox):
     def __init__(self, master):
         super().__init__(master=master)
         self.zoom:int = 14
+        self.max_font: int = 20
+        self.min_font: int = 10
         self.make_widget()
 
     def make_widget(self):
@@ -31,8 +33,7 @@ class textbox(ctk.CTkTextbox):
         return None
 
     def zoom_in(self):
-        print("zoom in")
-        if self.zoom >= 20 :
+        if self.zoom >= self.max_font :
             return None
 
         
@@ -41,9 +42,8 @@ class textbox(ctk.CTkTextbox):
         return None
     
     def zoom_out(self) -> None:
-        print("zoom in")
 
-        if self.zoom <= 10:
+        if self.zoom <= self.min_font:
             return None
 
         self.zoom -= 2
