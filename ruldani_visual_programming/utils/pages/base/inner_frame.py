@@ -17,7 +17,5 @@ class inner_frame(ctk.CTkLabel):
 
         if self.selected :
             self.configure( fg_color = self.color_selected )
-            print("selecte")
         else :
             self.configure( fg_color = self.color_unselect )
-            print("deselect")
