@@ -12,6 +12,7 @@ class pages(tk.Tk):
         self.presenter: presenters = None
         self.activate_line = None
         self.nodeberzier_container = None
+        self.selected_visual_frame = None
 
     def run(self):
         # get presenter button, sub button via initial state
@@ -34,7 +35,7 @@ class pages(tk.Tk):
             for j in range(len(sub_button)):
                 new = self.sidebars.make_sub_button(isi_sidebar=btn[i], icon=sub_button[j], identity_btn= button[i], identity_sub=sub_name[j], sequence=j)
                 self.binding_sidebar(new, nama=sub_name[j])
-                print(sub_name[j])
+                # print(sub_name[j])
         
     # set presenter untuk melakukan komunikasi 2 arah ke presenter
     def set_presenter(self, presenter: presenters):

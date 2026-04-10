@@ -137,9 +137,6 @@ class code_content(ctk.CTkFrame):
         # show
         return None
 
-
-
-
 class visual_content(ctk.CTkCanvas):
     def __init__(self, master):
         super().__init__(master, bg = cm.VISUAL_CONTENT, highlightthickness = 0)

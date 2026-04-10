@@ -5,3 +5,4 @@ from ruldani_visual_programming.utils.pages.base.styled_tooltip import styled_to
 from ruldani_visual_programming.utils.pages.base.button import button, button_sidebar, button_ribbon
 from ruldani_visual_programming.utils.pages.base.sidebar import sidebar_class, sidebar_frame, sidebar_search
 from ruldani_visual_programming.utils.pages.base.textbox import textbox
+from ruldani_visual_programming.utils.pages.base.inner_frame import inner_frame
