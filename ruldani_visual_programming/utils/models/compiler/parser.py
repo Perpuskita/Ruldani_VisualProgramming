@@ -1,4 +1,4 @@
-from ruldani_visual_programming.utils.models.compiler.tokenizer import token
+from ruldani_visual_programming.utils.models.compiler.tokens import token
 import ruldani_visual_programming.utils.error as error
 
 
@@ -89,7 +89,7 @@ class parser:
 # testing
 
 if __name__ == "__main__":
-    from ruldani_visual_programming.utils.models.compiler.tokenizer import tokenizer
+    from ruldani_visual_programming.utils.models.compiler.tokens import tokenizer
     
     daest = """class ast:
     def __init__(name):

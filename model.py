@@ -41,13 +41,9 @@ if __name__ == "__main__":
     textbox.pack(expand=True, fill="both")
 
     text = read_file_to_string("/ruldani_visual_programming/code_from_scratch.py")
-    # configure 
-    textbox.configure(state="normal")
-    textbox.delete("1.0", "end")
-    textbox.insert("end", text)
 
     # loop pada tokenizer
-    high = highlight(textbox)
-    code = code_identifier(high.raw_text)
+    high = highlight(text=text, textbox=textbox)
+    code = code_identifier(text)
 
     root.mainloop()

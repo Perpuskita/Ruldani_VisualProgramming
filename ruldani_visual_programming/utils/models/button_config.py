@@ -1,17 +1,14 @@
-from PIL import Image
-import os
-import customtkinter as ctk
-from ruldani_visual_programming.utils.models.code_database import interpreter_code, interpreter
+from ruldani_visual_programming.utils.models.code_database import interpreter, code_server
 from ruldani_visual_programming.utils import image
 
 
 # Kelas untuk Sub_Button
 class SubButton:
-    def __init__(self, sub_button_name: str, sub_button_icon:str, hover_color, input = [], output = []):
+    def __init__(self, sub_button_name: str, sub_button_icon:str, hover_color: str):
         self.sub_button_name = sub_button_name
         self.sub_button_icon = sub_button_icon
         self.hover_color = hover_color
-        self.interpreter = None
+        self.code_server = code_server()
         self.input = None
         self.output = None
         self.text = ""
@@ -22,12 +19,16 @@ class SubButton:
     def text_code(self, text: str) -> None:
         self.text = text
         return None
+    
+    def get_text(self):
+        res: str = "def " + self.sub_button_name
+        return self.text
 
     # Fungsi untuk membuat baris node 
     # Menghasilkan container dari kelas interpreter
     def set_interpreter(self, node: interpreter) -> None:
         # print(f"inisialisasi dari kelas interpreter {name}")
-        self.interpreter = node
+        self.code_server = node
         return None
 
     # input dari kelas interpreter code
@@ -36,13 +37,13 @@ class SubButton:
         # print(f"type input interpreter {self.sub_button_name}")
         # for n in self.interpreter.input:
         #     print(f"{n}\n")
-        return self.interpreter.input
+        return self.code_server.input
 
     def output_node(self):
         # print(f"type output interpreter {self.sub_button_name}")
         # for n in self.interpreter.output:
         #     print(f"{n}\n")
-        return self.interpreter.output
+        return self.code_server.output
     
 # Kelas untuk Button
 class Button:

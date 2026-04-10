@@ -48,4 +48,3 @@ class interpreter():
 
     def copy(self):
         return None
-    

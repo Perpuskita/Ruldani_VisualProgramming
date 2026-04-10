@@ -16,7 +16,6 @@ class pages(tk.Tk):
     def run(self):
         # get presenter button, sub button via initial state
         button: list = self.presenter.initial_button()
-        sub_button: list = self.presenter.initial_subbutton()
 
         # pisahkan logika pembuatan window dengan pembuatan sidebar button
         self.make_window([1440, 720])
@@ -27,9 +26,15 @@ class pages(tk.Tk):
         sub_btn: list = []
         # gunakan loop untuk binding sidebar
         for i in range(len(btn)) :
-            for j, sub in enumerate(sub_button[i]):
-                new = self.sidebars.make_sub_button(isi_sidebar=btn[i], icon=sub, identity_btn= button[i], identity_sub=sub, sequence=j)
-                self.binding_sidebar(new)
+
+            sub_button: list[str] = self.presenter.initial_subbutton(i)
+            sub_name: list [str] = self.presenter.initial_subname(i)
+
+
+            for j in range(len(sub_button)):
+                new = self.sidebars.make_sub_button(isi_sidebar=btn[i], icon=sub_button[j], identity_btn= button[i], identity_sub=sub_name[j], sequence=j)
+                self.binding_sidebar(new, nama=sub_name[j])
+                print(sub_name[j])
         
     # set presenter untuk melakukan komunikasi 2 arah ke presenter
     def set_presenter(self, presenter: presenters):
@@ -83,21 +88,21 @@ class pages(tk.Tk):
         self.contents.toggle_preference()
 
     # binding sidebar dengan menggunakan lambda str 
-    def binding_sidebar(self, sub_button: button_sidebar):
-        sub_button.bind("<Button-1>", lambda event : self.make_visual_programming())
+    def binding_sidebar(self, sub_button: button_sidebar, nama: str):
+        sub_button.bind("<Button-1>", lambda event, nama=nama : self.make_visual_programming(nama=nama))
         return None
     
     def make_line(self):
         return None
 
     # make visual programming dan berikan konfigurasinya dari presenter dngan value str
-    def make_visual_programming(self):
+    def make_visual_programming(self, nama: str):
 
         # ambil konfigurasi dari presenter
         self.presenter.make_visual_programming()
 
         # buatkan visual programming content berdasarkan presenter
-        self.contents.make_visual_programming()
+        self.contents.make_visual_programming(nama=nama)
 
     def clear_preferences(self):
         return None

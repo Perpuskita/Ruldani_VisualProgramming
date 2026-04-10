@@ -1,95 +1,10 @@
-# peghubung dan pemisah antar token
-NEW_LINE = [
-    "\r", "\n"
-]
 
-WHITE_SPACE = [
-    " "
-]
+from ruldani_visual_programming.utils.models.compiler.type_token import *
+from ruldani_visual_programming.utils.models.compiler.tokens import tokens
 
-SEPARATOR = [
-    "(", ")", "[", "]", "{", "}"
-]
-
-FUNC = [
-    ".", ",","'",'''"''',":"
-]
-
-BUILT_IN_FUNCTION = [
-    "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is","pass","self", "->", 
-    "try", "except","raise", "with", "and", "or"
-]
-
-OPERATOR = [
-    "+", "-", "*", "/", "//", "%", "**",
-    "==", "!=", ">", "<", ">=", "<=","="
-]
-
-class token():
-    def __init__(self, name, begin: int = 1, end: int = 1):
-        self.name   = name
-        self.begin  = begin
-        self.end    = end
-        self.type   = self.type_token()
-        self.priority = 1
-        # self.print_token()
-
-    def detection(self, char, DEF):
-        for separate in DEF:
-            if char == separate:
-                return separate
-        return False
-    
-    def type_token(self):
-        char = self.name
-        # Type newline
-        if self.name == "NEW_LINE":
-            return "NEW_LINE"
-        
-        # Type function
-        elif self.detection(char=char, DEF= FUNC):
-            # print("titik atau koma")
-            return "FUNC"
-        
-        # Type built in function 
-        elif self.detection(char=char, DEF= BUILT_IN_FUNCTION):
-            return "BUILT_IN_FUNCTION"
-        
-        # Type operator
-        elif self.detection(char=char, DEF= OPERATOR):
-            return "OPERATOR"
-        
-        # Type braces
-        elif self.detection(char=char, DEF= SEPARATOR):
-            return "SEPARATOR"
-        
-        elif char == "TAB":
-            return "TAB"
-
-        return "ID"
-    
-    def get_token(self):
-        return self.name, self.begin, self.end, self.type
-
-    def get_name(self):
-        return self.name
-    
-    def print_token(self):
-        name = ""
-        
-        # Nama untuk print token 
-        if len(self.name) <= 9:
-            name = f"{self.name}{' '*(9-len(self.name))}"
-        else:
-            name = f"{self.name[:7]}.."
-        
-        # print token
-        print(f'''__ token : {name} ->    berada di : "{self.begin}","{self.end}" \tjenis token : {self.type}''')
-
-class tokenizer():
+class lexer():
     def __init__(self, text: str):
-        self.token: list[token] = []
+        self.token: list[tokens] = []
         self.token = self.make_token(text)
 
     def detection(self, char, DEF):
@@ -124,7 +39,7 @@ class tokenizer():
         elif self.detection(char=char, DEF= WHITE_SPACE):
             return "WHITE_SPACE"
         
-        return None
+        return "ID"
 
     # tokenisasi token
     def make_token(self, text: str):
@@ -156,8 +71,12 @@ class tokenizer():
                 # print(temp)
                 write = char
             
+            elif detection == "WHITE_SPACE":
+                tab += 1
+                write = char
+
             # Deteksi built in function
-            elif detection is not None:
+            elif detection != "ID":
                 write = char
             
             # penambahan char string jika tidak terdeteksi
@@ -185,7 +104,8 @@ class tokenizer():
                         end = f"{line}.{i-new_l-1}"
                     
                     # buat token baru berdasarkan variabel temp, begin dan end
-                    new_token = token(temp, begin, end)
+                    detection_temp: str = self.type_token(temp)
+                    new_token = tokens(temp, begin, end, type_token=detection_temp)
                     # new_token.print_token()
 
                     # append token ke token stream
@@ -197,7 +117,7 @@ class tokenizer():
                 # penambahan token untuk token yang terdeteksi selain white space
                 if write != " " :
                     # buat token baru berdasarkan variabel temp, begin dan end
-                    new_token = token(write, begin, end)
+                    new_token = tokens(write, begin, end, type_token=detection)
                     # new_token.print_token()
 
                     # append token ke token stream
@@ -210,7 +130,6 @@ class tokenizer():
                 end = None
 
         # if lagi
-
         return token_stream
     
     def reverse(self):
@@ -229,6 +148,10 @@ class tokenizer():
             concat += " "
         
         print(concat)
+
+    def print_token(self):
+        for token in self.token:
+            token.print_token()
 
 if __name__ == "__main__":
     def analisa_biner(path) :
@@ -257,5 +180,6 @@ def deteksi_tepi_folder_images(folder_path):
 deteksi_tepi_folder_images('{path}')'''
     
     concat: str = ''''''
-    token = tokenizer(analisa_biner("/path_ini_/"))
-    token.reverse()
+    token = lexer(analisa_biner("/path_ini_/"))
+    # token.reverse()
+    token.print_token()

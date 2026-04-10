@@ -9,8 +9,11 @@ class presenters:
     def initial_button(self) -> list:
         return self.model.get_button()
     
-    def initial_subbutton(self) -> list:
-        return self.model.get_sub_button()
+    def initial_subbutton(self, index: int) -> list:
+        return self.model.get_sub_button_image(index=index)
+    
+    def initial_subname(self, index: int):
+        return self.model.get_sub_button_name(index=index)
     
     def make_visual_programming(self):
         print("presenter : membuat node baru")

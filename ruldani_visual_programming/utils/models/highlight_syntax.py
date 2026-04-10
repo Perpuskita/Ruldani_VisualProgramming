@@ -1,7 +1,6 @@
 
 import ruldani_visual_programming.utils.color_manager as cm
-from ruldani_visual_programming.utils.models.compiler import lexical_analysis as lexer
-from ruldani_visual_programming.utils.models.compiler.tokenizer import tokenizer
+from ruldani_visual_programming.utils.models.compiler import lexer
 import customtkinter as ctk
 
 ORANGE_PALLETE = cm.ORANGE_PALLETE
@@ -41,7 +40,7 @@ class highlight ():
     def __init__(self, text: str, textbox: ctk.CTkTextbox):
         self.textbox = textbox
         self.raw_text = text
-        self.token: tokenizer = tokenizer(self.raw_text)
+        self.token: lexer = lexer(self.raw_text)
         self.highlight_token()
 
     def highlight_token(self ):

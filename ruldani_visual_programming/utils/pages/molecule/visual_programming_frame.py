@@ -7,8 +7,9 @@ from ruldani_visual_programming.utils.pages.base import nodeberzier
 class visual_programming_frame(ctk.CTkFrame):
     def __init__(self, master, text, container: list, active_line):
         self.max_height = 30
+        self.max_width  = 140
 
-        super().__init__(master=master, width=100, height=self.max_height)
+        super().__init__(master=master, width=self.max_width, height=self.max_height)
         self.master = master
         
         # make utils for visual programming frame
@@ -36,24 +37,24 @@ class visual_programming_frame(ctk.CTkFrame):
         rely = 0.5
 
         self.place(relx=relx, rely=rely, anchor="center")
+        self.grid_propagate(False)
 
         # make dummy widget
         self.make_input_node(types="imageInput1.png")
         self.make_input_node(types="imageInput1.png")
-        self.make_output_node(types="imageOutput2.png")
-        self.make_output_node(types="imageOutput2.png")
         self.make_output_node(types="imageOutput2.png")
 
         # return None
         return None
  
     def make_inner_frame(self, text: str) -> ctk.CTkLabel:
-        new = ctk.CTkLabel(master=self, text=text, width=50, height=self.max_height, corner_radius=10, fg_color=cm.SECONDARY_COLOR)
+        new = ctk.CTkLabel(master=self, text=text, width=int(self.max_width*86/100), height=self.max_height, corner_radius=10, fg_color=cm.SECONDARY_COLOR)
         new.place(relx=0.5, rely=0.5, anchor="center")
 
         # bind motion
         new.bind("<Button-1>", command=self.on_click)
         new.bind("<B1-Motion>", command=self.on_drag)
+        new.grid_propagate(False)
 
         # bind tooltip
         # new.bind("<Enter>", self.tooltip_show)

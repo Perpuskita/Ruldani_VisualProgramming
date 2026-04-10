@@ -1,2 +1,2 @@
-from ruldani_visual_programming.utils.models.code_database.code_server import interpreter_code
+from ruldani_visual_programming.utils.models.code_database.code_server import code_server
 from ruldani_visual_programming.utils.models.code_database.interpreter import interpreter

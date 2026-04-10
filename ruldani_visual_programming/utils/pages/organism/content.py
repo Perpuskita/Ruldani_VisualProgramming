@@ -50,11 +50,11 @@ class content(ctk.CTkCanvas):
         self.head.visual_button.bind("<Button-1>", lambda event : self.switch_content(status="visual"))
         return None
 
-    def make_visual_programming(self) -> bool:
+    def make_visual_programming(self, nama) -> bool:
         if not self.head.status:
             return False
         
-        new: visual_programming_frame = visual_programming_frame(master=self.visual_content, text="mainframe", container=self.node_container, active_line=self.active_line)
+        new: visual_programming_frame = visual_programming_frame(master=self.visual_content, text=nama, container=self.node_container, active_line=self.active_line)
         self.visual_frame_container.append(new)
         return True
     

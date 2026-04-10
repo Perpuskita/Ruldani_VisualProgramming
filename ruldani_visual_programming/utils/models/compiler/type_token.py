@@ -11,19 +11,19 @@ SEPARATOR = [
 ]
 
 FUNC = [
-    ".", ",","'",'''"''',":"
+    ",","'",'''"''',":"
 ]
 
 BUILT_IN_FUNCTION = [
     "print", "len", "range", "if", "else", "elif", "for", "return", "def", 
-    "class", "import", "from", "as", "in", "#", "is"
+    "class", "import", "from", "as", "in", "#", "is","pass","self", "->", 
+    "try", "except","raise", "with", "and", "or"
 ]
 
 OPERATOR = [
     "+", "-", "*", "/", "//", "%", "**",
     "==", "!=", ">", "<", ">=", "<=","="
 ]
-
 
 class type_token:
     def __init__(self, name, content ,binding_power):

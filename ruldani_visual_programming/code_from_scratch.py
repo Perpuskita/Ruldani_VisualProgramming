@@ -95,16 +95,7 @@ class ImageManip:
         return output
 
     def kernel_manip(self, image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
-        """
-        Apply a custom convolution kernel to an image.
 
-        Args:
-            image (np.ndarray): Input image (H, W) or (H, W, C).
-            kernel (np.ndarray): Convolution kernel (2D array).
-
-        Returns:
-            np.ndarray: Convolved image.
-        """
         if kernel.ndim != 2:
             raise ValueError("Kernel must be a 2D array.")
 
@@ -124,17 +115,7 @@ class ImageManip:
             raise ValueError("Image must be 2D or 3D.")
 
     def gaussian_blur(self, image: np.ndarray, sigma: float = 1.0, kernel_size: int = 0) -> np.ndarray:
-        """
-        Apply Gaussian blur to an image.
 
-        Args:
-            image (np.ndarray): Input image.
-            sigma (float): Standard deviation for Gaussian kernel.
-            kernel_size (int): Size of the kernel (odd number). If 0, computed from sigma.
-
-        Returns:
-            np.ndarray: Blurred image.
-        """
         if kernel_size == 0:
             kernel_size = int(6 * sigma + 1)
         
@@ -150,16 +131,8 @@ class ImageManip:
 
         return self.kernel_manip(image, kernel)
 
-    def gray_scale(self, image: np.ndarray) -> np.ndarray:
-        """
-        Convert an image to grayscale using luminance method.
+    def gray_scale(self, image: np.ndarray, cfg: int = 10) -> np.ndarray:
 
-        Args:
-            image (np.ndarray): Input image (H, W, C).
-
-        Returns:
-            np.ndarray: Grayscale image (H, W).
-        """
         if image.ndim == 2:
             return image
 

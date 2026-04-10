@@ -19,16 +19,21 @@ class models():
 
         return res
 
-    def get_sub_button(self) -> list[str]:
-        res: list [list[str]] = []
+    # mengambil subbutton image
+    def get_sub_button_image(self, index: int) -> list[str]:
+        res: list = []
 
-        for btn in self.btn.conf_button:
-            hasil: list[str] = []
-            for sub in btn.sub_buttons :
-                hasil.append(sub.sub_button_icon)
-                # print(sub.sub_button_name)
-            
-            res.append(hasil)
+        for sub in self.btn.conf_button[index].sub_buttons :
+            res.append(sub.sub_button_icon)
+        return res
+    
+    # mengambil subbutton name
+    def get_sub_button_name(self, index: int) -> list[str]:
+        res: list = []
+
+        for sub in self.btn.conf_button[index].sub_buttons :
+            res.append(sub.sub_button_name)
+
         return res
 
     # make new frame
