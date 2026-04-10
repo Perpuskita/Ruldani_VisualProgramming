@@ -2,11 +2,11 @@ import customtkinter as ctk
 import random
 import ruldani_visual_programming.utils.color_manager as cm
 from ruldani_visual_programming.utils import image
-from ruldani_visual_programming.utils.pages.base import nodeberzier
+from ruldani_visual_programming.utils.pages.base import nodeberzier, inner_frame
 
 class visual_programming_frame(ctk.CTkFrame):
     def __init__(self, master, text, container: list, active_line):
-        self.max_height = 30
+        self.max_height = 26
         self.max_width  = 140
 
         super().__init__(master=master, width=self.max_width, height=self.max_height)
@@ -24,7 +24,7 @@ class visual_programming_frame(ctk.CTkFrame):
         self.active_line = active_line
         
         # make all widget
-        self.inner_frame = self.make_inner_frame(text=text)
+        self.inner_frame:inner_frame = self.make_inner_frame(text=text)
         self.make_widget()
         
         # status selected
@@ -47,12 +47,10 @@ class visual_programming_frame(ctk.CTkFrame):
         # return None
         return None
  
-    def make_inner_frame(self, text: str) -> ctk.CTkLabel:
-        new = ctk.CTkLabel(master=self, text=text, width=int(self.max_width*86/100), height=self.max_height, corner_radius=10, fg_color=cm.SECONDARY_COLOR)
-        new.place(relx=0.5, rely=0.5, anchor="center")
+    def make_inner_frame(self, text: str) -> inner_frame:
+        new = inner_frame(master=self, text=text, max_width=self.max_width, max_height=self.max_height)
 
         # bind motion
-        new.bind("<Button-1>", command=self.on_click)
         new.bind("<B1-Motion>", command=self.on_drag)
         new.grid_propagate(False)
 
@@ -61,14 +59,6 @@ class visual_programming_frame(ctk.CTkFrame):
         # new.bind("<Leave>", self.tooltip_hide)
         
         return new
-    
-    def tooltip_show(self, e) -> None:
-        print("show tooltip")
-        return None
-    
-    def tooltip_hide(self, e) -> None:
-        print("hide tooltip")
-        return None
 
     def make_input_node(self, types: str) -> nodeberzier:
         img = image(types,[10,10])
@@ -113,6 +103,14 @@ class visual_programming_frame(ctk.CTkFrame):
         self.output.append(hub)
         return hub
     
+    def tooltip_show(self, e) -> None:
+        print("show tooltip")
+        return None
+    
+    def tooltip_hide(self, e) -> None:
+        print("hide tooltip")
+        return None
+
     def place_sycronitation(self, length: int) -> float:
         
         # new height get maximum
@@ -137,17 +135,17 @@ class visual_programming_frame(ctk.CTkFrame):
         y = event.y_root - self.master.winfo_rooty() - self.master.winfo_height()/2
         x = event.x_root - self.master.winfo_rootx() - self.master.winfo_width()/2
 
-        if y < int(-self.master.winfo_height()/2) + self.max_height/2 + 5:
-            y = int(-self.master.winfo_height()/2 + self.max_height/2 + 5)
+        if y < int(-self.master.winfo_height()/2) + self.max_height/2 + 4:
+            y = int(-self.master.winfo_height()/2 + self.max_height/2 + 4)
+        
+        elif y > int(self.master.winfo_height()/2) - self.max_height/2 - 4:
+            y = int(self.master.winfo_height()/2 - self.max_height/2 - 4)
 
-        if x < int( -self.master.winfo_width()/2 + 50):
-            x = int(-self.master.winfo_width()/2 + 50)
+        if x < int( -self.master.winfo_width()/2 + self.max_width/2 ):
+            x = int(-self.master.winfo_width()/2 + self.max_width/2 )
 
-        if y > int(self.master.winfo_height()/2) - self.max_height/2 + 5:
-            y = int(self.master.winfo_height()/2 - self.max_height/2 + 5)
-
-        if x > int(self.master.winfo_width()/2) - 50:
-            x = int(self.master.winfo_width()/2 - 50)
+        elif x > int(self.master.winfo_width()/2) - self.max_width/2 :
+            x = int(self.master.winfo_width()/2 - self.max_width/2 )
         
         self.update_node()
         self.place(x=x, y=y)
@@ -162,6 +160,5 @@ class visual_programming_frame(ctk.CTkFrame):
         for output_node in self.output:
             output_node.force_update()
 
-    def on_click(self, event) -> None:
-        print("on click")
-        return None
+    def toggle_selected(self):
+        self.inner_frame.toggle_selected()

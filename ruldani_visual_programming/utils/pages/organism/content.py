@@ -14,6 +14,9 @@ class content(ctk.CTkCanvas):
         self.node_container: list[nodeberzier] = []
         self.active_line = None
         self.visual_frame_container: list [visual_programming_frame] = []
+
+        # menampung hanya 1 visual frame
+        self.selected_visual_frame = None
         
         # futureproof
         # self.hidden_preferences = None
@@ -55,9 +58,27 @@ class content(ctk.CTkCanvas):
             return False
         
         new: visual_programming_frame = visual_programming_frame(master=self.visual_content, text=nama, container=self.node_container, active_line=self.active_line)
+        new.bind("<Button-1>", lambda event: self.visual_programming_binding(frame=new))
+        new.inner_frame.bind("<Button-1>", lambda event: self.visual_programming_binding(frame=new))
         self.visual_frame_container.append(new)
         return True
     
+    def visual_programming_binding(self, frame: visual_programming_frame) -> None:
+        if self.selected_visual_frame is None:
+            self.selected_visual_frame = frame
+            frame.toggle_selected()
+        
+        elif self.selected_visual_frame == frame:
+            frame.toggle_selected()
+            self.selected_visual_frame = None
+        
+        else :
+            self.selected_visual_frame.toggle_selected()
+            self.selected_visual_frame = frame
+            self.selected_visual_frame.toggle_selected()
+
+        return None
+
     def on_resize(self, event):
         self.after(50, self.update_node)
         

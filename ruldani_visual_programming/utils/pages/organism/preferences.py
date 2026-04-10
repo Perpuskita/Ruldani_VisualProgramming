@@ -84,3 +84,5 @@ class preferences(ctk.CTkFrame):
         self.configure(width=30)
         self.preference_label.grid_remove()
         return None
+    
+    # destroy all widget
